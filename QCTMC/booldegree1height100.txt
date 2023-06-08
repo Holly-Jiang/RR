@@ -1,0 +1,728 @@
+qctmc_time: 0.6690700054168701
+I: [0.2, 2.2], J: [0.0, 1.0]
+cnf_exp_list: [['67*x4-51.0 <= 0', '22*x3-28*x2+29*x4+20.0 <= 0', '15*x2+28*x1-13.0 >= 0', '7*x4+2*x2-3.8461538461538463 <= 0'], ['67*x4-51.0 > 0', '23*x2+75*x3+66.0 <= 0', '15*x2+28*x1-13.0 < 0', '7*x4+2*x2-3.8461538461538463 > 0'], ['67*x4-51.0 > 0', '30*x4-90*x1-45*x3-91*x2+71.0 > 0', '22*x3-28*x2+29*x4+20.0 > 0', '7*x4+2*x2-3.8461538461538463 <= 0'], ['30*x4-90*x1-45*x3-91*x2+71.0 <= 0', '22*x3-28*x2+29*x4+20.0 > 0', '23*x2+75*x3+66.0 > 0', '15*x2+28*x1-13.0 >= 0']]
+factor: ['67*x4-51.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：101.5977 MB
+conflictdriving time:0.8285722732543945
+factor: ['67*x4-51.0', '>', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：102.9609 MB
+conflictdriving time:0.8186612129211426
+factor: ['23*x2+75*x3+66.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：103.0352 MB
+conflictdriving time:0.6823108196258545
+factor: ['15*x2+28*x1-13.0', '<', '0']
+***************ConflictDrivenSolving*********************
+True B: [[0.2, 0.712281975937640], [0.955549977580947, 1.46783195351859], [1.73906327587709, 2.23254825331128], [2.28017426892064, 3.03230823897427], [3.07550441620115, 3.2]]
+************************************
+conflict 当前进程的内存使用：103.3750 MB
+conflictdriving time:0.7503550052642822
+factor: ['67*x4-51.0', '>', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：104.1875 MB
+conflictdriving time:0.8149590492248535
+factor: ['30*x4-90*x1-45*x3-91*x2+71.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: [[2.36407451273683, 2.42741106559670], [3.13666344714013, 3.2]]
+************************************
+conflict 当前进程的内存使用：104.4414 MB
+conflictdriving time:0.7285828590393066
+factor: ['30*x4-90*x1-45*x3-91*x2+71.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：104.4922 MB
+conflictdriving time:0.7412149906158447
+factor: ['22*x3-28*x2+29*x4+20.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: [[2.86726522535474, 3.2]]
+************************************
+conflict 当前进程的内存使用：104.5586 MB
+conflictdriving time:0.7039468288421631
+The boolean  formula is satisfied#
+conflict__:101 6.07 829 1
+
+I: [0.8, 3.8], J: [0.1, 1.1]
+cnf_exp_list: [['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 < 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 <= 0', '11*x4+6*x2-5.0 >= 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 >= 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 < 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 < 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 < 0', '68*x1+58*x3+41.0 <= 0', '11*x4+6*x2-5.0 < 0']]
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：104.7031 MB
+conflictdriving time:0.7071151733398438
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：104.7617 MB
+conflictdriving time:0.6785430908203125
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：104.7812 MB
+conflictdriving time:0.6785132884979248
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：104.8125 MB
+conflictdriving time:0.6758439540863037
+factor: ['68*x1+58*x3+41.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：104.9062 MB
+conflictdriving time:0.7008533477783203
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：104.9414 MB
+conflictdriving time:0.6780290603637695
+factor: ['68*x1+58*x3+41.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：104.9570 MB
+conflictdriving time:0.6770389080047607
+factor: ['11*x4+6*x2-5.0', '<', '0']
+***************ConflictDrivenSolving*********************
+True B: [[1.73867420689965, 1.82623211696751], [3.63004451551584, 4.02869967716192]]
+************************************
+conflict 当前进程的内存使用：106.4531 MB
+conflictdriving time:1.1221511363983154
+The boolean  formula is satisfied#
+conflict__:102 5.92 840 1
+
+I: [0.9, 3.9], J: [0.4, 2.4]
+cnf_exp_list: [['82*x4-66.0 > 0', '59*x4-80*x3+65.0 <= 0', '58*x3-88.0 <= 0', '15*x2+100.0 < 0'], ['82*x4-66.0 > 0', '21*x1+49*x2-75*x3-80.0 >= 0', '15*x2+100.0 < 0', '11*x3+31*x1+43.0 >= 0'], ['20*x1+36.0 < 0', '21*x1+49*x2-75*x3-80.0 < 0', '15*x2+100.0 >= 0', '11*x3+31*x1+43.0 < 0'], ['20*x1+36.0 < 0', '59*x4-80*x3+65.0 <= 0', '40*x1+43*x4-40*x3-42.5 < 0', '11*x3+31*x1+43.0 >= 0'], ['82*x4-66.0 <= 0', '20*x1+36.0 >= 0', '59*x4-80*x3+65.0 <= 0', '11*x3+31*x1+43.0 >= 0'], ['20*x1+36.0 < 0', '59*x4-80*x3+65.0 > 0', '15*x2+100.0 < 0', '11*x3+31*x1+43.0 >= 0']]
+factor: ['82*x4-66.0', '>', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.5273 MB
+conflictdriving time:0.6892910003662109
+factor: ['59*x4-80*x3+65.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.6758 MB
+conflictdriving time:0.7050621509552002
+factor: ['58*x3-88.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.7031 MB
+conflictdriving time:0.6781361103057861
+factor: ['82*x4-66.0', '>', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.7109 MB
+conflictdriving time:0.6754798889160156
+factor: ['21*x1+49*x2-75*x3-80.0', '>=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.7344 MB
+conflictdriving time:0.7038710117340088
+factor: ['15*x2+100.0', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.7500 MB
+conflictdriving time:0.6770288944244385
+factor: ['11*x3+31*x1+43.0', '>=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.7930 MB
+conflictdriving time:0.7012009620666504
+factor: ['20*x1+36.0', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.8320 MB
+conflictdriving time:0.6999721527099609
+factor: ['21*x1+49*x2-75*x3-80.0', '<', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.8438 MB
+conflictdriving time:0.6780309677124023
+factor: ['20*x1+36.0', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.8477 MB
+conflictdriving time:0.6771302223205566
+factor: ['59*x4-80*x3+65.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.8555 MB
+conflictdriving time:0.67543625831604
+factor: ['40*x1+43*x4-40*x3-42.5', '<', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.9102 MB
+conflictdriving time:0.7037229537963867
+factor: ['82*x4-66.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.9180 MB
+conflictdriving time:0.6769869327545166
+factor: ['20*x1+36.0', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：106.9258 MB
+conflictdriving time:0.676306962966919
+factor: ['59*x4-80*x3+65.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：106.9375 MB
+conflictdriving time:0.6772220134735107
+The boolean  formula is satisfied#
+conflict__:103 10.29 1602 1
+
+I: [0.4, 1.4], J: [0.2, 1.2]
+cnf_exp_list: [['47*x4+79.0 > 0', '30*x3+46*x4+13*x1-9.0 <= 0', '55*x2-26*x4-32*x3+43.0 > 0', '20*x2+14*x4-11.0 >= 0'], ['47*x4+79.0 <= 0', '25*x3+19*x2+35.0 <= 0', '20*x1-23*x4-22*x2+5.0 > 0', '30*x3+46*x4+13*x1-9.0 > 0'], ['25*x3+19*x2+35.0 <= 0', '20*x1-23*x4-22*x2+5.0 > 0', '55*x2-26*x4-32*x3+43.0 <= 0', '20*x2+14*x4-11.0 < 0'], ['47*x4+79.0 > 0', '98*x2-89*x3-97*x1-15.0 > 0', '20*x1-23*x4-22*x2+5.0 <= 0', '20*x2+14*x4-11.0 < 0'], ['25*x3+19*x2+35.0 > 0', '20*x1-23*x4-22*x2+5.0 > 0', '30*x3+46*x4+13*x1-9.0 > 0', '20*x2+14*x4-11.0 >= 0']]
+factor: ['47*x4+79.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：107.0117 MB
+conflictdriving time:0.7039029598236084
+factor: ['47*x4+79.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：107.0195 MB
+conflictdriving time:0.6772279739379883
+factor: ['25*x3+19*x2+35.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：107.0273 MB
+conflictdriving time:0.6776120662689209
+factor: ['20*x1-23*x4-22*x2+5.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: [[0.6000000000000001, 1.53094032279095], [1.60207677363767, 1.75527717729677], [1.82125249909494, 2.53301709642862]]
+************************************
+conflict 当前进程的内存使用：107.0703 MB
+conflictdriving time:0.7105481624603271
+factor: ['25*x3+19*x2+35.0', '<=', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：107.0781 MB
+conflictdriving time:0.6734530925750732
+factor: ['20*x1-23*x4-22*x2+5.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: [[0.940718077465347, 1.28169098609642], [1.32234443997648, 1.50145385180663], [1.57216031977608, 1.62871964828344]]
+************************************
+conflict 当前进程的内存使用：107.3320 MB
+conflictdriving time:0.8438897132873535
+factor: ['47*x4+79.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：107.3359 MB
+conflictdriving time:0.677603006362915
+factor: ['25*x3+19*x2+35.0', '>', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：107.3359 MB
+conflictdriving time:0.674187183380127
+The boolean  formula is satisfied#
+conflict__:104 5.64 857 1
+
+I: [0.1, 8.1], J: [0.0, 1.0]
+cnf_exp_list: [['47*x1+44.0 < 0', '4*x4-1*x3-3*x2-1.72 < 0', '35*x4+93.0 > 0'], ['47*x1+44.0 >= 0', '57*x3-40*x2-54.0 > 0', '4*x4-1*x3-3*x2-1.72 < 0']]
+factor: ['47*x1+44.0', '<', '0']
+***************ConflictDrivenSolving*********************
+False B: None
+************************************
+conflict 当前进程的内存使用：107.3984 MB
+conflictdriving time:0.7520349025726318
+factor: ['4*x4-1*x3-3*x2-1.72', '<', '0']
+***************ConflictDrivenSolving*********************
+True B: None
+************************************
+conflict 当前进程的内存使用：107.6367 MB
+conflictdriving time:0.8040249347686768
+factor: ['47*x1+44.0', '>=', '0']
+***************ConflictDrivenSolving*********************
+True B: [[0.1, 0.832842961161287], [4.28389657610448, 4.38316843652968]]
+************************************
+conflict 当前进程的内存使用：107.6758 MB
+conflictdriving time:0.7117669582366943
+The boolean  formula is satisfied#
+conflict__:105 2.27 323 1
+
+average time｜ isolate: 0.0, conflict: 6.037561321258545
+average space｜ isolate: 0.0, conflict: 890.1703125
+qctmc_time: 0.6638011932373047
+I: [0.2, 2.2], J: [0.0, 1.0]
+cnf_exp_list: [['67*x4-51.0 <= 0', '22*x3-28*x2+29*x4+20.0 <= 0', '15*x2+28*x1-13.0 >= 0', '7*x4+2*x2-3.8461538461538463 <= 0'], ['67*x4-51.0 > 0', '23*x2+75*x3+66.0 <= 0', '15*x2+28*x1-13.0 < 0', '7*x4+2*x2-3.8461538461538463 > 0'], ['67*x4-51.0 > 0', '30*x4-90*x1-45*x3-91*x2+71.0 > 0', '22*x3-28*x2+29*x4+20.0 > 0', '7*x4+2*x2-3.8461538461538463 <= 0'], ['30*x4-90*x1-45*x3-91*x2+71.0 <= 0', '22*x3-28*x2+29*x4+20.0 > 0', '23*x2+75*x3+66.0 > 0', '15*x2+28*x1-13.0 >= 0']]
+factor: ['67*x4-51.0', '<=', '0']
+phi: -25.875 - 33.5*exp(-2*t)*cos(2*t) + 8.375*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  2.6212971210479736 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：108.0039 MB
+realrootisolate time:3.485872745513916
+************************************ 3.485872745513916 108.00390625 1 []
+factor: ['67*x4-51.0', '>', '0']
+phi: -25.875 - 33.5*exp(-2*t)*cos(2*t) + 8.375*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  2.506956100463867 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：110.2305 MB
+realrootisolate time:3.376997709274292
+************************************ 3.376997709274292 110.23046875 0 []
+factor: ['23*x2+75*x3+66.0', '<=', '0']
+phi: 78.25 - 12.25*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.03903484344482422 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：110.2695 MB
+realrootisolate time:0.7557699680328369
+************************************ 0.7557699680328369 110.26953125 0 []
+factor: ['15*x2+28*x1-13.0', '<', '0']
+phi: -0.625 + 14.0*exp(-2*t)*cos(2*t) + 1.625*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  4.2782368659973145 s
+ok isolate: [[0.575000000000000, 0.762500000000000]]
+iso satisfy
+iso 当前进程的内存使用：112.1445 MB
+realrootisolate time:5.160867214202881
+************************************ 5.160867214202881 112.14453125 1 [[0.575000000000000, 0.762500000000000]]
+factor: ['67*x4-51.0', '>', '0']
+phi: -25.875 - 33.5*exp(-2*t)*cos(2*t) + 8.375*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  2.5368449687957764 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：113.9375 MB
+realrootisolate time:3.402757167816162
+************************************ 3.402757167816162 113.9375 0 []
+factor: ['30*x4-90*x1-45*x3-91*x2+71.0', '>', '0']
+phi: 31.5 - 60.0*exp(-2*t)*cos(2*t) + 9.5*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  3.2556240558624268 s
+ok isolate: [[0.200000000000000, 0.575000000000000]]
+iso satisfy
+iso 当前进程的内存使用：114.9883 MB
+realrootisolate time:4.12198805809021
+************************************ 4.12198805809021 114.98828125 1 [[0.200000000000000, 0.575000000000000]]
+factor: ['30*x4-90*x1-45*x3-91*x2+71.0', '<=', '0']
+phi: 31.5 - 60.0*exp(-2*t)*cos(2*t) + 9.5*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  3.272373914718628 s
+ok isolate: [[0.200000000000000, 0.575000000000000]]
+iso not satisfy
+iso 当前进程的内存使用：116.2422 MB
+realrootisolate time:4.128031969070435
+************************************ 4.128031969070435 116.2421875 0 [[0.200000000000000, 0.575000000000000]]
+factor: ['22*x3-28*x2+29*x4+20.0', '>', '0']
+phi: 30.125 - 14.5*exp(-2*t)*cos(2*t) + 4.375*exp(-4*t)
+interval:[0.2, 3.2]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.6834957599639893 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：116.5586 MB
+realrootisolate time:1.5460991859436035
+************************************ 1.5460991859436035 116.55859375 1 []
+The boolean  formula is isolation satisfied#
+iso__: 101 25.98 902 1
+
+I: [0.8, 3.8], J: [0.1, 1.1]
+cnf_exp_list: [['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 < 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 <= 0', '11*x4+6*x2-5.0 >= 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 >= 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 >= 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 < 0', '68*x1+58*x3+41.0 > 0', '11*x4+6*x2-5.0 < 0'], ['21*x4-47*x3+25*x2+18*x1+29.5 < 0', '68*x1+58*x3+41.0 <= 0', '11*x4+6*x2-5.0 < 0']]
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+phi: 41.375 - 1.5*exp(-2*t)*cos(2*t) + 7.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.6938941478729248 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：116.6406 MB
+realrootisolate time:1.5666489601135254
+************************************ 1.5666489601135254 116.640625 1 []
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+phi: 41.375 - 1.5*exp(-2*t)*cos(2*t) + 7.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.4467473030090332 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：116.6484 MB
+realrootisolate time:1.2994637489318848
+************************************ 1.2994637489318848 116.6484375 1 []
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '>=', '0']
+phi: 41.375 - 1.5*exp(-2*t)*cos(2*t) + 7.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.4540081024169922 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：116.7188 MB
+realrootisolate time:1.2976629734039307
+************************************ 1.2976629734039307 116.71875 1 []
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '<', '0']
+phi: 41.375 - 1.5*exp(-2*t)*cos(2*t) + 7.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.4498159885406494 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：116.7461 MB
+realrootisolate time:1.2988059520721436
+************************************ 1.2988059520721436 116.74609375 0 []
+factor: ['68*x1+58*x3+41.0', '>', '0']
+phi: 73.75 + 34.0*exp(-2*t)*cos(2*t) + 1.25*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5919122695922852 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：116.7695 MB
+realrootisolate time:1.4444761276245117
+************************************ 1.4444761276245117 116.76953125 1 []
+factor: ['21*x4-47*x3+25*x2+18*x1+29.5', '<', '0']
+phi: 41.375 - 1.5*exp(-2*t)*cos(2*t) + 7.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5086610317230225 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：116.7695 MB
+realrootisolate time:1.35318922996521
+************************************ 1.35318922996521 116.76953125 0 []
+factor: ['68*x1+58*x3+41.0', '<=', '0']
+phi: 73.75 + 34.0*exp(-2*t)*cos(2*t) + 1.25*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.40311694145202637 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：116.7695 MB
+realrootisolate time:1.2395188808441162
+************************************ 1.2395188808441162 116.76953125 0 []
+factor: ['11*x4+6*x2-5.0', '<', '0']
+phi: -0.125 - 5.5*exp(-2*t)*cos(2*t) + 0.625*exp(-4*t)
+interval:[0.9, 4.9]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  6.2253570556640625 s
+ok isolate: [[1.65000000000000, 1.90000000000000]]
+iso satisfy
+iso 当前进程的内存使用：118.3008 MB
+realrootisolate time:7.100439071655273
+************************************ 7.100439071655273 118.30078125 1 [[1.65000000000000, 1.90000000000000]]
+The boolean  formula is isolation satisfied#
+iso__: 102 16.60 935 1
+
+I: [0.9, 3.9], J: [0.4, 2.4]
+cnf_exp_list: [['82*x4-66.0 > 0', '59*x4-80*x3+65.0 <= 0', '58*x3-88.0 <= 0', '15*x2+100.0 < 0'], ['82*x4-66.0 > 0', '21*x1+49*x2-75*x3-80.0 >= 0', '15*x2+100.0 < 0', '11*x3+31*x1+43.0 >= 0'], ['20*x1+36.0 < 0', '21*x1+49*x2-75*x3-80.0 < 0', '15*x2+100.0 >= 0', '11*x3+31*x1+43.0 < 0'], ['20*x1+36.0 < 0', '59*x4-80*x3+65.0 <= 0', '40*x1+43*x4-40*x3-42.5 < 0', '11*x3+31*x1+43.0 >= 0'], ['82*x4-66.0 <= 0', '20*x1+36.0 >= 0', '59*x4-80*x3+65.0 <= 0', '11*x3+31*x1+43.0 >= 0'], ['20*x1+36.0 < 0', '59*x4-80*x3+65.0 > 0', '15*x2+100.0 < 0', '11*x3+31*x1+43.0 >= 0']]
+factor: ['82*x4-66.0', '>', '0']
+phi: -35.25 - 41.0*exp(-2*t)*cos(2*t) + 10.25*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.7035439014434814 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3008 MB
+realrootisolate time:1.5794918537139893
+************************************ 1.5794918537139893 118.30078125 0 []
+factor: ['59*x4-80*x3+65.0', '<=', '0']
+phi: 77.125 - 29.5*exp(-2*t)*cos(2*t) + 17.375*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5821969509124756 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3047 MB
+realrootisolate time:1.4361319541931152
+************************************ 1.4361319541931152 118.3046875 0 []
+factor: ['58*x3-88.0', '<=', '0']
+phi: -80.75 - 7.25*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.029768943786621094 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3047 MB
+realrootisolate time:0.7449400424957275
+************************************ 0.7449400424957275 118.3046875 1 []
+factor: ['82*x4-66.0', '>', '0']
+phi: -35.25 - 41.0*exp(-2*t)*cos(2*t) + 10.25*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.507216215133667 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3086 MB
+realrootisolate time:1.3611359596252441
+************************************ 1.3611359596252441 118.30859375 0 []
+factor: ['21*x1+49*x2-75*x3-80.0', '>=', '0']
+phi: -75.375 + 10.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5619268417358398 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3164 MB
+realrootisolate time:1.4216079711914062
+************************************ 1.4216079711914062 118.31640625 0 []
+factor: ['15*x2+100.0', '<', '0']
+phi: 101.875 - 1.875*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.02945089340209961 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3164 MB
+realrootisolate time:0.7421369552612305
+************************************ 0.7421369552612305 118.31640625 0 []
+factor: ['11*x3+31*x1+43.0', '>=', '0']
+phi: 56.0 + 15.5*exp(-2*t)*cos(2*t) + 2.5*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5494661331176758 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3203 MB
+realrootisolate time:1.3984038829803467
+************************************ 1.3984038829803467 118.3203125 1 []
+factor: ['20*x1+36.0', '<', '0']
+phi: 43.5 + 10.0*exp(-2*t)*cos(2*t) + 2.5*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5329012870788574 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3203 MB
+realrootisolate time:1.3882019519805908
+************************************ 1.3882019519805908 118.3203125 0 []
+factor: ['21*x1+49*x2-75*x3-80.0', '<', '0']
+phi: -75.375 + 10.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.47538304328918457 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3203 MB
+realrootisolate time:1.3180532455444336
+************************************ 1.3180532455444336 118.3203125 1 []
+factor: ['20*x1+36.0', '<', '0']
+phi: 43.5 + 10.0*exp(-2*t)*cos(2*t) + 2.5*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.4167039394378662 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3242 MB
+realrootisolate time:1.254188060760498
+************************************ 1.254188060760498 118.32421875 0 []
+factor: ['59*x4-80*x3+65.0', '<=', '0']
+phi: 77.125 - 29.5*exp(-2*t)*cos(2*t) + 17.375*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5124368667602539 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3320 MB
+realrootisolate time:1.3468608856201172
+************************************ 1.3468608856201172 118.33203125 0 []
+factor: ['40*x1+43*x4-40*x3-42.5', '<', '0']
+phi: -16.375 - 1.5*exp(-2*t)*cos(2*t) + 15.375*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5652871131896973 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3320 MB
+realrootisolate time:1.4365317821502686
+************************************ 1.4365317821502686 118.33203125 1 []
+factor: ['82*x4-66.0', '<=', '0']
+phi: -35.25 - 41.0*exp(-2*t)*cos(2*t) + 10.25*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.537186861038208 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3320 MB
+realrootisolate time:1.3932900428771973
+************************************ 1.3932900428771973 118.33203125 1 []
+factor: ['20*x1+36.0', '<', '0']
+phi: 43.5 + 10.0*exp(-2*t)*cos(2*t) + 2.5*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.466825008392334 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.3438 MB
+realrootisolate time:1.305860996246338
+************************************ 1.305860996246338 118.34375 0 []
+factor: ['59*x4-80*x3+65.0', '>', '0']
+phi: 77.125 - 29.5*exp(-2*t)*cos(2*t) + 17.375*exp(-4*t)
+interval:[1.3, 6.3]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.5045111179351807 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.3789 MB
+realrootisolate time:1.3443620204925537
+************************************ 1.3443620204925537 118.37890625 1 []
+The boolean  formula is isolation satisfied#
+iso__: 103 19.47 1775 1
+
+I: [0.4, 1.4], J: [0.2, 1.2]
+cnf_exp_list: [['47*x4+79.0 > 0', '30*x3+46*x4+13*x1-9.0 <= 0', '55*x2-26*x4-32*x3+43.0 > 0', '20*x2+14*x4-11.0 >= 0'], ['47*x4+79.0 <= 0', '25*x3+19*x2+35.0 <= 0', '20*x1-23*x4-22*x2+5.0 > 0', '30*x3+46*x4+13*x1-9.0 > 0'], ['25*x3+19*x2+35.0 <= 0', '20*x1-23*x4-22*x2+5.0 > 0', '55*x2-26*x4-32*x3+43.0 <= 0', '20*x2+14*x4-11.0 < 0'], ['47*x4+79.0 > 0', '98*x2-89*x3-97*x1-15.0 > 0', '20*x1-23*x4-22*x2+5.0 <= 0', '20*x2+14*x4-11.0 < 0'], ['25*x3+19*x2+35.0 > 0', '20*x1-23*x4-22*x2+5.0 > 0', '30*x3+46*x4+13*x1-9.0 > 0', '20*x2+14*x4-11.0 >= 0']]
+factor: ['47*x4+79.0', '>', '0']
+phi: 96.625 - 23.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.6649279594421387 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：118.4258 MB
+realrootisolate time:1.5211100578308105
+************************************ 1.5211100578308105 118.42578125 1 []
+factor: ['47*x4+79.0', '<=', '0']
+phi: 96.625 - 23.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.4214451313018799 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.4297 MB
+realrootisolate time:1.2636399269104004
+************************************ 1.2636399269104004 118.4296875 0 []
+factor: ['25*x3+19*x2+35.0', '<=', '0']
+phi: 40.5 - 5.5*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.03046393394470215 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.4297 MB
+realrootisolate time:0.7425687313079834
+************************************ 0.7425687313079834 118.4296875 0 []
+factor: ['20*x1-23*x4-22*x2+5.0', '>', '0']
+phi: 1.125 + 21.5*exp(-2*t)*cos(2*t) + 2.375*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  5.168372869491577 s
+ok isolate: [[0.975000000000000, 1.03750000000000], [1.35000000000000, 1.47500000000000]]
+iso satisfy
+iso 当前进程的内存使用：118.6016 MB
+realrootisolate time:6.033108234405518
+************************************ 6.033108234405518 118.6015625 1 [[0.975000000000000, 1.03750000000000], [1.35000000000000, 1.47500000000000]]
+factor: ['25*x3+19*x2+35.0', '<=', '0']
+phi: 40.5 - 5.5*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.03589797019958496 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：118.6172 MB
+realrootisolate time:0.7426741123199463
+************************************ 0.7426741123199463 118.6171875 0 []
+factor: ['20*x1-23*x4-22*x2+5.0', '>', '0']
+phi: 1.125 + 21.5*exp(-2*t)*cos(2*t) + 2.375*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  5.083913087844849 s
+ok isolate: [[0.975000000000000, 1.03750000000000], [1.35000000000000, 1.47500000000000]]
+iso satisfy
+iso 当前进程的内存使用：119.2500 MB
+realrootisolate time:5.957056045532227
+************************************ 5.957056045532227 119.25 1 [[0.975000000000000, 1.03750000000000], [1.35000000000000, 1.47500000000000]]
+factor: ['47*x4+79.0', '>', '0']
+phi: 96.625 - 23.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.6834039688110352 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：119.2578 MB
+realrootisolate time:1.5313000679016113
+************************************ 1.5313000679016113 119.2578125 1 []
+factor: ['25*x3+19*x2+35.0', '>', '0']
+phi: 40.5 - 5.5*exp(-4*t)
+interval:[0.6000000000000001, 2.5999999999999996]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  0.029041051864624023 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：119.2578 MB
+realrootisolate time:0.7366831302642822
+************************************ 0.7366831302642822 119.2578125 1 []
+The boolean  formula is isolation satisfied#
+iso__: 104 18.53 950 1
+
+I: [0.1, 8.1], J: [0.0, 1.0]
+cnf_exp_list: [['47*x1+44.0 < 0', '4*x4-1*x3-3*x2-1.72 < 0', '35*x4+93.0 > 0'], ['47*x1+44.0 >= 0', '57*x3-40*x2-54.0 > 0', '4*x4-1*x3-3*x2-1.72 < 0']]
+factor: ['47*x1+44.0', '<', '0']
+phi: 61.625 + 23.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[0.1, 9.1]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  3.574693202972412 s
+no root isolate: []
+iso not satisfy
+iso 当前进程的内存使用：119.2656 MB
+realrootisolate time:4.439912796020508
+************************************ 4.439912796020508 119.265625 0 []
+factor: ['4*x4-1*x3-3*x2-1.72', '<', '0']
+phi: -0.72 - 2.0*exp(-2*t)*cos(2*t) + 1.0*exp(-4*t)
+interval:[0.1, 9.1]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  4.724898099899292 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：119.3203 MB
+realrootisolate time:5.648327112197876
+************************************ 5.648327112197876 119.3203125 1 []
+factor: ['47*x1+44.0', '>=', '0']
+phi: 61.625 + 23.5*exp(-2*t)*cos(2*t) + 5.875*exp(-4*t)
+interval:[0.1, 9.1]
+**************realrootisolate**********************
+the total time consumed for real root isolation:  3.4593629837036133 s
+no root isolate: []
+iso satisfy
+iso 当前进程的内存使用：119.5625 MB
+realrootisolate time:4.308093309402466
+************************************ 4.308093309402466 119.5625 1 []
+The boolean  formula is isolation satisfied#
+iso__: 105 14.40 358 1
+
+average time｜ isolate: 18.994852018356323, conflict: 0.0
+average space｜ isolate: 984.20234375, conflict: 0.0
