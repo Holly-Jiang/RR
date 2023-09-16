@@ -1,0 +1,145 @@
+QCTMC_TIME: 1.6949422359466553
+ID: 11
+I: [1.0, 11.0], J: [0.4, 3.4]
+CNF_EXP_LIST: [['1*x3**3-8*x4**3 >= 0']]
+FACTOR: ['1*x3**3-8*x4**3', '>=', '0']
+PHI: ((exp(4*t) - 1)**3 - 512.0*(0.75*exp(4*t) - exp(2*t)*cos(2*t) + 0.25)**3)*exp(-12*t)/512
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 111.1875 MB
+SAMPLE-DRIVEN TIME: 5.741488933563232
+SAMPLE-DRIVEN: 11 5.74 111 0
+
+ID: 12
+I: [0.4, 3.4], J: [0.4, 2.4]
+CNF_EXP_LIST: [['6*x1*x2*x4+1*x4**3+1*x3**2-5*x2**3-2*x1*x2-2*x1*x4+1*x1**2+2*x3*x4+5*x2*x3*x4 >= 0']]
+FACTOR: ['6*x1*x2*x4+1*x4**3+1*x3**2-5*x2**3-2*x1*x2-2*x1*x4+1*x1**2+2*x3*x4+5*x2*x3*x4', '>=', '0']
+PHI: 0.052734375 - 0.125*exp(-2*t)*cos(2*t) + 0.84375*exp(-4*t)*cos(2*t)**2 - 0.126953125*exp(-4*t) - 0.125*exp(-6*t)*cos(2*t)**3 + 0.3125*exp(-6*t)*cos(2*t) + 0.28125*exp(-8*t)*cos(2*t)**2 - 0.060546875*exp(-8*t) - 0.0625*exp(-10*t)*cos(2*t) + 0.009765625*exp(-12*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 114.9492 MB
+SAMPLE-DRIVEN TIME: 7.575515031814575
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 12 7.58 115 1
+
+ID: 13
+I: [0.9, 9.9], J: [0.1, 3.1]
+CNF_EXP_LIST: [['2*x2*x3*x4-5*x1*x2+3*x1**2+4*x2*x4+1*x4**3-1*x1*x3-3*x2**3+3*x3*x4+3 > 0']]
+FACTOR: ['2*x2*x3*x4-5*x1*x2+3*x1**2+4*x2*x4+1*x4**3-1*x1*x3-3*x2**3+3*x3*x4+3', '>', '0']
+PHI: 3.52734375 + 0.0859375*exp(-2*t)*cos(2*t) + 1.03125*exp(-4*t)*cos(2*t)**2 + 0.30078125*exp(-4*t) - 0.125*exp(-6*t)*cos(2*t)**3 + 1.078125*exp(-6*t)*cos(2*t) + 0.09375*exp(-8*t)*cos(2*t)**2 + 0.03515625*exp(-8*t) - 0.0390625*exp(-10*t)*cos(2*t) + 0.01171875*exp(-12*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 116.8945 MB
+SAMPLE-DRIVEN TIME: 4.739810466766357
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 13 4.74 117 1
+
+ID: 14
+I: [0.2, 5.2], J: [0.4, 1.4]
+CNF_EXP_LIST: [['2*x1*x4-9*x1**2+1*x1**2+1*x2*x3*x4+3*x1*x2*x3+6*x1*x2-4*x3*x4-6*x4**3-10*x2**3+4*x1*x3*x4+4*x3**2 < 0']]
+FACTOR: ['2*x1*x4-9*x1**2+1*x1**2+1*x2*x3*x4+3*x1*x2*x3+6*x1*x2-4*x3*x4-6*x4**3-10*x2**3+4*x1*x3*x4+4*x3**2', '<', '0']
+PHI: -0.9296875 - 1.09375*exp(-2*t)*cos(2*t) - 4.3125*exp(-4*t)*cos(2*t)**2 - 1.0703125*exp(-4*t) + 0.75*exp(-6*t)*cos(2*t)**3 - 0.8125*exp(-6*t)*cos(2*t) - 0.4375*exp(-8*t)*cos(2*t)**2 - 0.2578125*exp(-8*t) + 0.15625*exp(-10*t)*cos(2*t) + 0.0078125*exp(-12*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 120.4766 MB
+SAMPLE-DRIVEN TIME: 14.337076187133789
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 14 14.34 120 1
+
+ID: 15
+I: [0.6, 9.6], J: [0.2, 3.2]
+CNF_EXP_LIST: [['9*x2*x4+9*x1*x2*x3-8*x4**3+2*x2*x3-4*x1**3-2*x1*x2+3*x1*x4+5*x4**2-5*x3*x4+6*x2**3-2*x2**2-2*x2*x3*x4-3*x1*x3*x4-8*x1*x2*x4+3*x3**3-5 > 0']]
+FACTOR: ['9*x2*x4+9*x1*x2*x3-8*x4**3+2*x2*x3-4*x1**3-2*x1*x2+3*x1*x4+5*x4**2-5*x3*x4+6*x2**3-2*x2**2-2*x2*x3*x4-3*x1*x3*x4-8*x1*x2*x4+3*x3**3-5', '>', '0']
+PHI: -4.548828125 - 1.3203125*exp(-2*t)*cos(2*t) - 2.53125*exp(-4*t)*cos(2*t)**2 - 0.001953125*exp(-4*t) + 0.5*exp(-6*t)*cos(2*t)**3 + 0.140625*exp(-6*t)*cos(2*t) - 1.46875*exp(-8*t)*cos(2*t)**2 + 0.056640625*exp(-8*t) + 0.1796875*exp(-10*t)*cos(2*t) - 0.005859375*exp(-12*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 121.5547 MB
+SAMPLE-DRIVEN TIME: 5.642482042312622
+SAMPLE-DRIVEN: 15 5.64 122 0
+
+AVERAGE TIME: 7.61, AVERAGE SPACE: 117
+QCTMC_TIME: 1.6742162704467773
+ID: 11
+I: [1.0, 11.0], J: [0.4, 3.4]
+CNF_EXP_LIST: [['1*x3**3-8*x4**3 >= 0']]
+FACTOR: ['1*x3**3-8*x4**3', '>=', '0']
+PHI: ((exp(4*t) - 1)**3 - 512.0*(0.75*exp(4*t) - exp(2*t)*cos(2*t) + 0.25)**3)*exp(-12*t)/512
+INTERVAL: [1.4, 14.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  44.83916425704956 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 124.9531 MB
+ISOLATE TIME: 49.10375094413757
+************************************ 49.10375094413757 124.953125 0 []
+ISOLATION-BASED: 11 49.10 125 0
+
+ID: 12
+I: [0.4, 3.4], J: [0.4, 2.4]
+CNF_EXP_LIST: [['6*x1*x2*x4+1*x4**3+1*x3**2-5*x2**3-2*x1*x2-2*x1*x4+1*x1**2+2*x3*x4+5*x2*x3*x4 >= 0']]
+FACTOR: ['6*x1*x2*x4+1*x4**3+1*x3**2-5*x2**3-2*x1*x2-2*x1*x4+1*x1**2+2*x3*x4+5*x2*x3*x4', '>=', '0']
+PHI: 0.052734375 - 0.125*exp(-2*t)*cos(2*t) + 0.84375*exp(-4*t)*cos(2*t)**2 - 0.126953125*exp(-4*t) - 0.125*exp(-6*t)*cos(2*t)**3 + 0.3125*exp(-6*t)*cos(2*t) + 0.28125*exp(-8*t)*cos(2*t)**2 - 0.060546875*exp(-8*t) - 0.0625*exp(-10*t)*cos(2*t) + 0.009765625*exp(-12*t)
+INTERVAL: [0.8, 5.8]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  23.806103706359863 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 126.1562 MB
+ISOLATE TIME: 28.61192226409912
+************************************ 28.61192226409912 126.15625 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 12 28.61 126 1
+
+ID: 13
+I: [0.9, 9.9], J: [0.1, 3.1]
+CNF_EXP_LIST: [['2*x2*x3*x4-5*x1*x2+3*x1**2+4*x2*x4+1*x4**3-1*x1*x3-3*x2**3+3*x3*x4+3 > 0']]
+FACTOR: ['2*x2*x3*x4-5*x1*x2+3*x1**2+4*x2*x4+1*x4**3-1*x1*x3-3*x2**3+3*x3*x4+3', '>', '0']
+PHI: 3.52734375 + 0.0859375*exp(-2*t)*cos(2*t) + 1.03125*exp(-4*t)*cos(2*t)**2 + 0.30078125*exp(-4*t) - 0.125*exp(-6*t)*cos(2*t)**3 + 1.078125*exp(-6*t)*cos(2*t) + 0.09375*exp(-8*t)*cos(2*t)**2 + 0.03515625*exp(-8*t) - 0.0390625*exp(-10*t)*cos(2*t) + 0.01171875*exp(-12*t)
+INTERVAL: [1.0, 13.0]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  5.480024099349976 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 126.2695 MB
+ISOLATE TIME: 9.957827091217041
+************************************ 9.957827091217041 126.26953125 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 13 9.96 126 1
+
+ID: 14
+I: [0.2, 5.2], J: [0.4, 1.4]
+CNF_EXP_LIST: [['2*x1*x4-9*x1**2+1*x1**2+1*x2*x3*x4+3*x1*x2*x3+6*x1*x2-4*x3*x4-6*x4**3-10*x2**3+4*x1*x3*x4+4*x3**2 < 0']]
+FACTOR: ['2*x1*x4-9*x1**2+1*x1**2+1*x2*x3*x4+3*x1*x2*x3+6*x1*x2-4*x3*x4-6*x4**3-10*x2**3+4*x1*x3*x4+4*x3**2', '<', '0']
+PHI: -0.9296875 - 1.09375*exp(-2*t)*cos(2*t) - 4.3125*exp(-4*t)*cos(2*t)**2 - 1.0703125*exp(-4*t) + 0.75*exp(-6*t)*cos(2*t)**3 - 0.8125*exp(-6*t)*cos(2*t) - 0.4375*exp(-8*t)*cos(2*t)**2 - 0.2578125*exp(-8*t) + 0.15625*exp(-10*t)*cos(2*t) + 0.0078125*exp(-12*t)
+INTERVAL: [0.6000000000000001, 6.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  32.91823601722717 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 128.2344 MB
+ISOLATE TIME: 37.59083414077759
+************************************ 37.59083414077759 128.234375 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 14 37.59 128 1
+
+ID: 15
+I: [0.6, 9.6], J: [0.2, 3.2]
+CNF_EXP_LIST: [['9*x2*x4+9*x1*x2*x3-8*x4**3+2*x2*x3-4*x1**3-2*x1*x2+3*x1*x4+5*x4**2-5*x3*x4+6*x2**3-2*x2**2-2*x2*x3*x4-3*x1*x3*x4-8*x1*x2*x4+3*x3**3-5 > 0']]
+FACTOR: ['9*x2*x4+9*x1*x2*x3-8*x4**3+2*x2*x3-4*x1**3-2*x1*x2+3*x1*x4+5*x4**2-5*x3*x4+6*x2**3-2*x2**2-2*x2*x3*x4-3*x1*x3*x4-8*x1*x2*x4+3*x3**3-5', '>', '0']
+PHI: -4.548828125 - 1.3203125*exp(-2*t)*cos(2*t) - 2.53125*exp(-4*t)*cos(2*t)**2 - 0.001953125*exp(-4*t) + 0.5*exp(-6*t)*cos(2*t)**3 + 0.140625*exp(-6*t)*cos(2*t) - 1.46875*exp(-8*t)*cos(2*t)**2 + 0.056640625*exp(-8*t) + 0.1796875*exp(-10*t)*cos(2*t) - 0.005859375*exp(-12*t)
+INTERVAL: [0.8, 12.8]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  5.4371020793914795 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 128.2852 MB
+ISOLATE TIME: 10.349618196487427
+************************************ 10.349618196487427 128.28515625 0 []
+ISOLATION-BASED: 15 10.35 128 0
+
+AVERAGE TIME: 27.12, AVERAGE SPACE: 127

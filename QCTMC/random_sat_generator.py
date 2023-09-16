@@ -1,4 +1,3 @@
-import os
 
 
 def SupplementSign(formula):
@@ -56,6 +55,8 @@ def CNF_Observing(path, exps):
         cnf_exp_list.append(exp_list)
         line = f.readline().strip()
     return cnf, cnf_exp, cnf_exp_list
+
+
 
 
 def CNF_analysis(path):

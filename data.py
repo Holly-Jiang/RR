@@ -1,7 +1,7 @@
 from sympy import Rational, Matrix, exp, I, symbols, latex, trace, sqrt, Identity
 from sympy.physics.quantum import TensorProduct
 
-t = symbols('t')
+t = symbols('t', real=True)
 r11=(3 * exp(8 * t) + exp(4 * t) + 2 * exp(2 * t * (3 - I)) + 2 * exp(2 * t * (3 + I))) * exp(-8 * t) / 8
 r14=(exp(8 * t) - exp(4 * t) - 2 * exp(2 * t * (3 - I)) + 2 * exp(2 * t * (3 + I))) * exp(-8 * t) / 8
 r41=(exp(8 * t) - exp(4 * t) + 2 * exp(2 * t * (3 - I)) - 2 * exp(2 * t * (3 + I))) * exp(-8 * t) / 8

@@ -251,7 +251,7 @@ def Sol2LME(ini_state, M, dim):
     return solution
 
 M = Matrix([[Rational(1,2),0,0,1],[0,3,0,0],[0,0,0,1],[1,0,0,1]])
-t = symbols('t')
+t = symbols('t', real=True)
 M = M * t
 print(exp(M*t))
 sol = Sol2LME(Matrix([[1,2],[2,3]]),M,2)

@@ -1,6 +1,8 @@
 import os
 import time
 from functools import wraps
+
+import sympy
 from sympy import *
 from sympy.calculus.util import *
 from scipy.optimize import fsolve
@@ -45,24 +47,25 @@ class RealRootIsolate:
     def SupValue4AbsFunc(self, func, var, invl):
         l, u = invl[0], invl[1]
 
-        M = max(Abs(func.subs({var: l})), Abs(func.subs({var: u})))
+        M = max(Abs(expand(func.subs({var: l}))), Abs(expand(func.subs({var: u}))))
         df = diff(func, var).simplify()
-        print('SupValue4AbsFunc df:', latex(df))
+        # print('SupValue4AbsFunc df:', latex(df))
         sln = solve(df, var)
         for value in sln:
             if value in invl:
-                funcVal = Abs(func.subs({var: value}))
+                funcVal = Abs(expand(func.subs({var: value})))
                 M = funcVal if funcVal >= M else M
         return M
 
     def SupValue4AbsFuncAppro(self, func, var, invl):
         l, u = invl[0], invl[1]
-        M = max(Abs(func.subs({var: l})), Abs(func.subs({var: u})))
+
+        M = max(Abs(expand(func.subs({var: l}))), Abs(expand(func.subs({var: u}))))
         N = 40
         delta = (u - l) / N
         i = l + delta
         while i < u:
-            funcVal = Abs(func.subs({var: i}))
+            funcVal = Abs(expand(func.subs({var: i})))
             M = funcVal if funcVal >= M else M
             i += delta
         return M
@@ -103,11 +106,12 @@ class RealRootIsolate:
             if iso_cache>self.cache:
                 self.cache=iso_cache
             # print(" the iteration number: ", i)
-            f_val1 = self.f.subs({self.t: l + i * delta})
-            f_val2 = self.f.subs({self.t: l + i * delta + delta})
-            f_val3 = self.f.subs({self.t: l + i * delta + 2 * delta})
-            f_prime_val1 = first_order_f.subs({self.t: l + i * delta})
-            f_prime_val2 = first_order_f.subs({self.t: l + i * delta + delta})
+            f_val1 = expand(simplify(self.f.subs({self.t: l + i * delta})))
+            f_val2 =expand(simplify( self.f.subs({self.t: l + i * delta + delta})))
+            f_val3 = expand(simplify(self.f.subs({self.t: l + i * delta + 2 * delta})))
+            f_prime_val1 = expand(simplify(first_order_f.subs({self.t: l + i * delta})))
+            f_prime_val2 = expand(simplify(first_order_f.subs({self.t: l + i * delta + delta})))
+
             if Abs(f_val1) > M * delta:
                 i += 1
             elif Abs(f_val2) > M * delta:
@@ -141,7 +145,7 @@ class RealRootIsolate:
 
 
 if __name__ == '__main__':
-    t = symbols('t')
+    t = symbols('t', real=True)
 
     f = '-Rational(1,5) - sqrt(2) * Rational(1,2) * exp(-(2+sqrt(2))*Rational(1,2) * t) + sqrt(2)*Rational(1,2)*exp(-(2-sqrt(2))*Rational(1,2)* t )'
     # print(f)
@@ -163,7 +167,7 @@ if __name__ == '__main__':
     sub_add = '1/8 + exp(-4*t)/8'
     add_sub = '1/8 + exp(-4*t)/8'
     f4 = sub_add + '-(' + add_add + ')*(' + add_add + ')'
-    print((eval(f3).simplify()))
+    print(latex(eval(f3).simplify()))
 
     RRI = RealRootIsolate('t', '-6.1875 - 3.25*exp(-2*t)*cos(2*t) + 0.25*exp(-4*t) - 0.75*exp(-6*t)*cos(2*t) - 0.0625*exp(-8*t)', [0, 12], 2)
     # RRI = RealRootIsolate('t', f2, [1/1000, 6], 2)

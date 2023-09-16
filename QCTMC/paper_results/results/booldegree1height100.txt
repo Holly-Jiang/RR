@@ -1,0 +1,385 @@
+QCTMC_TIME: 1.7373309135437012
+ID: 101
+I: [0.5, 1.5], J: [0.5, 4.5]
+CNF_EXP_LIST: [['78*x3-67*x1+59*x2 <= 0', '71*x4-2*x2+23 < 0', '34*x1-57*x2 > 0']]
+FACTOR: ['78*x3-67*x1+59*x2', '<=', '0']
+PHI: -8.0 - 33.5*exp(-2*t)*cos(2*t) - 25.5*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 107.3008 MB
+SAMPLE-DRIVEN TIME: 2.2892208099365234
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 101 2.29 107 1
+
+ID: 102
+I: [0.5, 1.5], J: [0.2, 2.2]
+CNF_EXP_LIST: [['36*x3+70*x1+27 > 0', '33*x4-80*x3 >= 0', '29*x4+31*x1+21*x3+15*x2-2 >= 0'], ['36*x3+70*x1+27 <= 0', '33*x4-80*x3 >= 0', '29*x4+31*x1+21*x3+15*x2-2 >= 0']]
+FACTOR: ['36*x3+70*x1+27', '>', '0']
+PHI: 57.75 + 35.0*exp(-2*t)*cos(2*t) + 4.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 107.8438 MB
+SAMPLE-DRIVEN TIME: 2.2360310554504395
+FACTOR: ['36*x3+70*x1+27', '<=', '0']
+PHI: 57.75 + 35.0*exp(-2*t)*cos(2*t) + 4.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.0195 MB
+SAMPLE-DRIVEN TIME: 2.028456926345825
+FACTOR: ['33*x4-80*x3', '>=', '0']
+PHI: 2.375 - 16.5*exp(-2*t)*cos(2*t) + 14.125*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.5312 MB
+SAMPLE-DRIVEN TIME: 2.2608089447021484
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 102 6.53 324 1
+
+ID: 103
+I: [0.5, 3.5], J: [0.4, 4.4]
+CNF_EXP_LIST: [['21*x1+86*x2-85*x4-51 > 0', '24*x4+27*x3+1 > 0', '25*x3 < 0']]
+FACTOR: ['21*x1+86*x2-85*x4-51', '>', '0']
+PHI: -64.25 + 53.0*exp(-2*t)*cos(2*t) - 18.75*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 109.0703 MB
+SAMPLE-DRIVEN TIME: 2.2591090202331543
+FACTOR: ['24*x4+27*x3+1', '>', '0']
+PHI: 13.375 - 12.0*exp(-2*t)*cos(2*t) - 0.375*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 109.4922 MB
+SAMPLE-DRIVEN TIME: 2.269289970397949
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 103 4.53 219 1
+
+ID: 104
+I: [0.5, 3.5], J: [0.1, 2.1]
+CNF_EXP_LIST: [['40*x2-79*x1-93*x3+81 < 0', '95*x4-17*x3-28*x1 <= 0', '21*x2-13*x1-23 <= 0', '89*x3+72*x4 > 0'], ['40*x2-79*x1-93*x3+81 >= 0', '95*x4-17*x3-28*x1 > 0', '21*x2-13*x1-23 <= 0', '89*x3+72*x4 <= 0'], ['95*x4-17*x3-28*x1 <= 0', '21*x2-13*x1-23 <= 0', '25*x4+13*x2-29*x1+9 < 0', '89*x3+72*x4 <= 0']]
+FACTOR: ['40*x2-79*x1-93*x3+81', '<', '0']
+PHI: 44.75 - 39.5*exp(-2*t)*cos(2*t) - 3.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 110.1328 MB
+SAMPLE-DRIVEN TIME: 2.5590407848358154
+FACTOR: ['95*x4-17*x3-28*x1', '<=', '0']
+PHI: 23.0 - 61.5*exp(-2*t)*cos(2*t) + 10.5*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 110.9453 MB
+SAMPLE-DRIVEN TIME: 3.3204309940338135
+FACTOR: ['21*x2-13*x1-23', '<=', '0']
+PHI: -25.25 - 6.5*exp(-2*t)*cos(2*t) - 4.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 111.4492 MB
+SAMPLE-DRIVEN TIME: 2.235583782196045
+FACTOR: ['40*x2-79*x1-93*x3+81', '>=', '0']
+PHI: 44.75 - 39.5*exp(-2*t)*cos(2*t) - 3.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 111.6914 MB
+SAMPLE-DRIVEN TIME: 2.128283739089966
+FACTOR: ['95*x4-17*x3-28*x1', '<=', '0']
+PHI: 23.0 - 61.5*exp(-2*t)*cos(2*t) + 10.5*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 112.0820 MB
+SAMPLE-DRIVEN TIME: 3.2241082191467285
+FACTOR: ['21*x2-13*x1-23', '<=', '0']
+PHI: -25.25 - 6.5*exp(-2*t)*cos(2*t) - 4.25*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 112.1602 MB
+SAMPLE-DRIVEN TIME: 2.151278018951416
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 104 15.62 668 1
+
+ID: 105
+I: [0.3, 5.3], J: [0.1, 3.1]
+CNF_EXP_LIST: [['8*x2+67*x3 <= 0', '47*x3-6*x1+23*x4+35 >= 0', '90*x4+17*x1+76 <= 0'], ['97*x3+88*x1-94 >= 0', '47*x3-6*x1+23*x4+35 >= 0', '30*x2-37*x3+29*x4 >= 0'], ['8*x2+67*x3 <= 0', '47*x3-6*x1+23*x4+35 < 0', '90*x4+17*x1+76 <= 0']]
+FACTOR: ['8*x2+67*x3', '<=', '0']
+PHI: 75/8 - 75*exp(-4*t)/8
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 112.3555 MB
+SAMPLE-DRIVEN TIME: 2.131744146347046
+FACTOR: ['47*x3-6*x1+23*x4+35', '>=', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 112.6562 MB
+SAMPLE-DRIVEN TIME: 2.413794994354248
+FACTOR: ['97*x3+88*x1-94', '>=', '0']
+PHI: -48.875 + 44.0*exp(-2*t)*cos(2*t) - 1.125*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 113.1172 MB
+SAMPLE-DRIVEN TIME: 3.198863983154297
+FACTOR: ['47*x3-6*x1+23*x4+35', '>=', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 113.3047 MB
+SAMPLE-DRIVEN TIME: 2.3174617290496826
+FACTOR: ['8*x2+67*x3', '<=', '0']
+PHI: 75/8 - 75*exp(-4*t)/8
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 113.4062 MB
+SAMPLE-DRIVEN TIME: 2.046535015106201
+FACTOR: ['47*x3-6*x1+23*x4+35', '<', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 113.6289 MB
+SAMPLE-DRIVEN TIME: 2.511409044265747
+FACTOR: ['90*x4+17*x1+76', '<=', '0']
+PHI: 116.125 - 36.5*exp(-2*t)*cos(2*t) + 13.375*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 114.0156 MB
+SAMPLE-DRIVEN TIME: 2.3741538524627686
+SAMPLE-DRIVEN: 105 16.99 792 0
+
+AVERAGE TIME: 9.19, AVERAGE SPACE: 422
+QCTMC_TIME: 1.7223799228668213
+ID: 101
+I: [0.5, 1.5], J: [0.5, 4.5]
+CNF_EXP_LIST: [['78*x3-67*x1+59*x2 <= 0', '71*x4-2*x2+23 < 0', '34*x1-57*x2 > 0']]
+FACTOR: ['78*x3-67*x1+59*x2', '<=', '0']
+PHI: -8.0 - 33.5*exp(-2*t)*cos(2*t) - 25.5*exp(-4*t)
+INTERVAL: [1.0, 6.0]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  4.797776937484741 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 113.0703 MB
+ISOLATE TIME: 7.087825775146484
+************************************ 7.087825775146484 113.0703125 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 101 7.09 113 1
+
+ID: 102
+I: [0.5, 1.5], J: [0.2, 2.2]
+CNF_EXP_LIST: [['36*x3+70*x1+27 > 0', '33*x4-80*x3 >= 0', '29*x4+31*x1+21*x3+15*x2-2 >= 0'], ['36*x3+70*x1+27 <= 0', '33*x4-80*x3 >= 0', '29*x4+31*x1+21*x3+15*x2-2 >= 0']]
+FACTOR: ['36*x3+70*x1+27', '>', '0']
+PHI: 57.75 + 35.0*exp(-2*t)*cos(2*t) + 4.25*exp(-4*t)
+INTERVAL: [0.7, 3.7]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  1.3672430515289307 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 113.9219 MB
+ISOLATE TIME: 3.5407092571258545
+************************************ 3.5407092571258545 113.921875 1 []
+FACTOR: ['36*x3+70*x1+27', '<=', '0']
+PHI: 57.75 + 35.0*exp(-2*t)*cos(2*t) + 4.25*exp(-4*t)
+INTERVAL: [0.7, 3.7]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  0.875885009765625 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 114.3086 MB
+ISOLATE TIME: 2.980402946472168
+************************************ 2.980402946472168 114.30859375 0 []
+FACTOR: ['33*x4-80*x3', '>=', '0']
+PHI: 2.375 - 16.5*exp(-2*t)*cos(2*t) + 14.125*exp(-4*t)
+INTERVAL: [0.7, 3.7]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  6.4889891147613525 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 118.2305 MB
+ISOLATE TIME: 8.675485134124756
+************************************ 8.675485134124756 118.23046875 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 102 15.20 346 1
+
+ID: 103
+I: [0.5, 3.5], J: [0.4, 4.4]
+CNF_EXP_LIST: [['21*x1+86*x2-85*x4-51 > 0', '24*x4+27*x3+1 > 0', '25*x3 < 0']]
+FACTOR: ['21*x1+86*x2-85*x4-51', '>', '0']
+PHI: -64.25 + 53.0*exp(-2*t)*cos(2*t) - 18.75*exp(-4*t)
+INTERVAL: [0.9, 7.9]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  1.5210559368133545 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 118.6562 MB
+ISOLATE TIME: 3.751863956451416
+************************************ 3.751863956451416 118.65625 0 []
+FACTOR: ['24*x4+27*x3+1', '>', '0']
+PHI: 13.375 - 12.0*exp(-2*t)*cos(2*t) - 0.375*exp(-4*t)
+INTERVAL: [0.9, 7.9]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  1.1731290817260742 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 119.0352 MB
+ISOLATE TIME: 3.405435800552368
+************************************ 3.405435800552368 119.03515625 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 103 7.16 238 1
+
+ID: 104
+I: [0.5, 3.5], J: [0.1, 2.1]
+CNF_EXP_LIST: [['40*x2-79*x1-93*x3+81 < 0', '95*x4-17*x3-28*x1 <= 0', '21*x2-13*x1-23 <= 0', '89*x3+72*x4 > 0'], ['40*x2-79*x1-93*x3+81 >= 0', '95*x4-17*x3-28*x1 > 0', '21*x2-13*x1-23 <= 0', '89*x3+72*x4 <= 0'], ['95*x4-17*x3-28*x1 <= 0', '21*x2-13*x1-23 <= 0', '25*x4+13*x2-29*x1+9 < 0', '89*x3+72*x4 <= 0']]
+FACTOR: ['40*x2-79*x1-93*x3+81', '<', '0']
+PHI: 44.75 - 39.5*exp(-2*t)*cos(2*t) - 3.25*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.5115370750427246 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 119.7578 MB
+ISOLATE TIME: 5.724442005157471
+************************************ 5.724442005157471 119.7578125 0 []
+FACTOR: ['95*x4-17*x3-28*x1', '<=', '0']
+PHI: 23.0 - 61.5*exp(-2*t)*cos(2*t) + 10.5*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  8.073593139648438 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 120.8516 MB
+ISOLATE TIME: 10.260524034500122
+************************************ 10.260524034500122 120.8515625 0 []
+FACTOR: ['21*x2-13*x1-23', '<=', '0']
+PHI: -25.25 - 6.5*exp(-2*t)*cos(2*t) - 4.25*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  1.2489919662475586 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 121.4414 MB
+ISOLATE TIME: 3.482322931289673
+************************************ 3.482322931289673 121.44140625 1 []
+FACTOR: ['40*x2-79*x1-93*x3+81', '>=', '0']
+PHI: 44.75 - 39.5*exp(-2*t)*cos(2*t) - 3.25*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.270437002182007 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 122.5664 MB
+ISOLATE TIME: 5.486449956893921
+************************************ 5.486449956893921 122.56640625 1 []
+FACTOR: ['95*x4-17*x3-28*x1', '<=', '0']
+PHI: 23.0 - 61.5*exp(-2*t)*cos(2*t) + 10.5*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  7.993388891220093 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 123.2422 MB
+ISOLATE TIME: 10.18756365776062
+************************************ 10.18756365776062 123.2421875 0 []
+FACTOR: ['21*x2-13*x1-23', '<=', '0']
+PHI: -25.25 - 6.5*exp(-2*t)*cos(2*t) - 4.25*exp(-4*t)
+INTERVAL: [0.6, 5.6]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  1.4027299880981445 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 123.3008 MB
+ISOLATE TIME: 3.6281042098999023
+************************************ 3.6281042098999023 123.30078125 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 104 38.77 731 1
+
+ID: 105
+I: [0.3, 5.3], J: [0.1, 3.1]
+CNF_EXP_LIST: [['8*x2+67*x3 <= 0', '47*x3-6*x1+23*x4+35 >= 0', '90*x4+17*x1+76 <= 0'], ['97*x3+88*x1-94 >= 0', '47*x3-6*x1+23*x4+35 >= 0', '30*x2-37*x3+29*x4 >= 0'], ['8*x2+67*x3 <= 0', '47*x3-6*x1+23*x4+35 < 0', '90*x4+17*x1+76 <= 0']]
+FACTOR: ['8*x2+67*x3', '<=', '0']
+PHI: 75/8 - 75*exp(-4*t)/8
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  0.3133690357208252 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 123.3555 MB
+ISOLATE TIME: 2.1642708778381348
+************************************ 2.1642708778381348 123.35546875 0 []
+FACTOR: ['47*x3-6*x1+23*x4+35', '>=', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.79583477973938 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 123.5586 MB
+ISOLATE TIME: 6.048681020736694
+************************************ 6.048681020736694 123.55859375 1 []
+FACTOR: ['97*x3+88*x1-94', '>=', '0']
+PHI: -48.875 + 44.0*exp(-2*t)*cos(2*t) - 1.125*exp(-4*t)
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  9.650974988937378 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 124.3438 MB
+ISOLATE TIME: 11.886385917663574
+************************************ 11.886385917663574 124.34375 0 []
+FACTOR: ['47*x3-6*x1+23*x4+35', '>=', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.7106881141662598 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 124.9453 MB
+ISOLATE TIME: 5.964170932769775
+************************************ 5.964170932769775 124.9453125 1 []
+FACTOR: ['8*x2+67*x3', '<=', '0']
+PHI: 75/8 - 75*exp(-4*t)/8
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  0.30891919136047363 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 125.1367 MB
+ISOLATE TIME: 2.156275987625122
+************************************ 2.156275987625122 125.13671875 0 []
+FACTOR: ['47*x3-6*x1+23*x4+35', '<', '0']
+PHI: 47.25 - 14.5*exp(-2*t)*cos(2*t) - 3.75*exp(-4*t)
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.621756076812744 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 125.9531 MB
+ISOLATE TIME: 5.866525888442993
+************************************ 5.866525888442993 125.953125 0 []
+FACTOR: ['90*x4+17*x1+76', '<=', '0']
+PHI: 116.125 - 36.5*exp(-2*t)*cos(2*t) + 13.375*exp(-4*t)
+INTERVAL: [0.4, 8.4]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.9887449741363525 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 126.1914 MB
+ISOLATE TIME: 6.1685497760772705
+************************************ 6.1685497760772705 126.19140625 0 []
+ISOLATION-BASED: 105 40.25 873 0
+
+AVERAGE TIME: 21.69, AVERAGE SPACE: 460

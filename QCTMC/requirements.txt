@@ -1,0 +1,36 @@
+brotlipy==0.7.0
+certifi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_b64zphacdv/croot/certifi_1683875375103/work/certifi
+cffi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_62rp5d8fd4/croots/recipe/cffi_1659598655556/work
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+CNFgen==0.9.2
+contourpy==1.0.7
+cryptography @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_19cvzxmeb9/croot/cryptography_1677533085498/work
+cycler==0.11.0
+decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
+fonttools==4.38.0
+gmpy2 @ file:///opt/concourse/worker/volumes/live/22766409-e78a-4fb0-711e-bd031212d672/volume/gmpy2_1645455563619/work
+idna @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_00jf0h4zbt/croot/idna_1666125573348/work
+install==1.3.5
+kiwisolver==1.4.4
+matplotlib==3.7.0
+memory-profiler==0.61.0
+mkl-fft==1.3.1
+mkl-random @ file:///opt/concourse/worker/volumes/live/a9eca864-069c-4240-73c8-4e51b036a10d/volume/mkl_random_1639994047876/work
+mkl-service==2.4.0
+mpmath==1.2.1
+networkx @ file:///tmp/build/80754af9/networkx_1598376031484/work
+numpy @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_cer8_sm247/croots/recipe/numpy_and_numpy_base_1659432720132/work
+packaging==23.0
+Pillow==9.4.0
+psutil==5.9.5
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+pydot==1.4.2
+pyOpenSSL @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_6dweji2whw/croot/pyopenssl_1677607689781/work
+pyparsing==3.0.9
+PySocks @ file:///Users/builder/ci_310/pysocks_1642536366386/work
+python-dateutil==2.8.2
+requests @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_ec2sxfa_zk/croot/requests_1682607519671/work
+scipy==1.10.1
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+sympy @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_6dq9olsd7l/croot/sympy_1668202399031/work
+urllib3 @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_61c6ppfd7m/croot/urllib3_1680254700568/work

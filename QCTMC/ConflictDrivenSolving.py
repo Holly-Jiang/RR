@@ -1,3 +1,4 @@
+import math
 import time
 
 from sympy import *
@@ -12,57 +13,266 @@ def trace(mat):
         returnTrace += mat[i, i]
     return returnTrace
 
+def Factor_Polynomial_By_X(f,P,rho_t):
 
-def FactorPolynomial(f):
-    t = symbols('t')
+    t = symbols('t', real=True)
+    reg = r"x\d+"
+    params = list(set(re.findall(reg, f)))
+    substi = {}
+    for item in params:
+        r = r"\d+"
+        ind = eval(re.search(r, item).group()) - 1
+        locals()[item] = symbols(item)
+        substi[locals()[item]] = trace(P[ind] * rho_t)
+    f = eval(f).subs(substi)
+    f=str(f)
+    f=str(expand(eval(f)))
+    factor=FactorPolynomial(f)
+    return factor
+
+def Factor_Polynomial(f, coe_from, coe_to):
+
+    t = symbols('t', real=True)
     # f = '(0.125 - exp(-4*t)/8)*(0.375 + 0.5*exp(-2*t)*cos(2*t) + 0.125*exp(-4*t)) + (0.375 - 0.5*exp(-2*t)*cos(2*t) + 0.125*exp(-4*t))*(0.375 + 0.5*exp(-2*t)*cos(-2*t) + 0.125*exp(-4*t)) + 0.125 - exp(-4*t)/8'
     reg = r'exp\(.\d*.t\)'
     reg1 = r'cos\(.\d*.t\)'
-    params = list(set(re.findall(reg, f)))
-    params.extend(list(set(re.findall(reg1, f))))
+    params1 = list(set(re.findall(reg, f)))
+    tvars_all = []
     tvars = []
     tvars_map = {}
-    for i in range(len(params)):
-        tvars.append(f't{i}')
-        locals()[f't{i}'] = symbols(f't{i}')
-    for i in range(len(params)):
-        item = params[i]
-        f = f.replace(item, tvars[i])
+    params=[]
+    if len(params1)>0:
+        for i in range(len(params1)):
+            if params1[i].__contains__('-'):
+                params.append('exp(-t)')
+                break
+        for i in range(len(params1)):
+            if not params1[i].__contains__('-'):
+                params.append('exp(t)')
+                break
+    flag1 = False
+    flag2 = False
+    for i in range(len(params1)):
+        if params1[i].__contains__('-'):
+            str1 = params1[i].split('exp(-')[1]
+            if str1.startswith('t'):
+                str1 = 1
+            else:
+                str1 = int(str1.split('*')[0])
+            str2 = f't0**{str1}'
+            tvars_all.append(str2)
+            if not flag1:
+                tvars.append('t0')
+                locals()[f't0'] = symbols(f't0', real=True)
+                flag1 = True
+        if not params1[i].__contains__('-'):
+            str1 = params1[i].split('exp(')[1]
+            if str1.startswith('t'):
+                str1 = 1
+            else:
+                str1 = int(str1.split('*')[0])
+            str2 = f't0**{str1}'
+            tvars_all.append(str2)
+            if not flag2:
+                tvars.append('t1')
+                locals()[f't1'] = symbols(f't1', real=True)
+                flag2 = True
+    params2 = list(set(re.findall(reg1, f)))
 
+    for i in range(len(params2)):
+        tvars.append(f't{i + len(params)}')
+        locals()[f't{i + len(params)}'] = symbols(f't{i + len(params)}', real=True)
+    for i in range(len(params1)):
+        item = params1[i]
+        f = f.replace(item, tvars_all[i])
+    for i in range(len(params2)):
+        item = params2[i]
+        f = f.replace(item, tvars[i + len(params)])
+    params.extend(params2)
     Q_poly = eval(f)
+    f1=expand(Q_poly*10000000)
+    if str(f1).__contains__('/'):
+        return []
+    coe, coelist = coe_poly(f1)
+    convention=gcd(coelist)
+    max_coe=0
+    for c in coelist:
+        if Abs(c/convention)>max_coe:
+            max_coe=Abs(c/convention)
+    f2=(f1)/convention
+    print(f"f2 {max_coe} {f2}")
+    if max_coe<coe_from or max_coe>coe_to:
+        return []
+
+    expstr = str(f2)
+    for i in range(len(tvars)):
+        expstr = expstr.replace(tvars[i], params[i])
+
+    print(f"phi_t: {expstr}")
+    # return [expstr]
+    factorF = factor_list(str(f2))[1]
+    factors = []
+    coe = 0
+
+    for item in factorF:
+        coe,coelist=coe_poly(item[0])
+        expstr = str(item[0])
+        for i in range(len(tvars)):
+            expstr = expstr.replace(tvars[i], params[i])
+
+        factors.append(eval(expstr))
+    if coe < coe_to:
+        print(factorF)
+        return []
+    return factors
+
+def coe_poly(item):
+    coe=0
+    coelist=[]
+    for it in item.args:
+        strit = str(it)
+        if strit.__contains__('t'):
+            stritt = strit.split('t')[0]
+            if stritt == '':
+                itf = 1
+            elif stritt.__contains__('*'):
+                itf = float(stritt.split('*')[0])
+            else:
+                itf = float(strit)
+            coe = itf if Abs(itf) > coe else coe
+            coelist.append(int(itf))
+        else:
+            itf = float(strit)
+            coe = itf if Abs(itf) > coe else coe
+            coelist.append(int(itf))
+    return coe, coelist
+
+def FactorPolynomial(f):
+    t = symbols('t', real=True)
+    f1=eval(f)
+    # f = '(0.125 - exp(-4*t)/8)*(0.375 + 0.5*exp(-2*t)*cos(2*t) + 0.125*exp(-4*t)) + (0.375 - 0.5*exp(-2*t)*cos(2*t) + 0.125*exp(-4*t))*(0.375 + 0.5*exp(-2*t)*cos(-2*t) + 0.125*exp(-4*t)) + 0.125 - exp(-4*t)/8'
+    reg = r'exp\(-*\d*\**t\)'
+    reg1 = r'cos\(-*\d*\**t\)'
+    params1 = list(set(re.findall(reg, f)))
+    tvars_all = []
+    tvars = []
+    tvars_map = {}
+    params = []
+    if len(params1) > 0:
+        for i in range(len(params1)):
+            if params1[i].__contains__('-'):
+                params.append('exp(-t)')
+                break
+        for i in range(len(params1)):
+            if not params1[i].__contains__('-'):
+                params.append('exp(t)')
+                break
+    flag1 = False
+    flag2 = False
+    for i in range(len(params1)):
+        if params1[i].__contains__('-'):
+            str1 = params1[i].split('exp(-')[1]
+            if str1.startswith('t'):
+                str1 = 1
+            else:
+                str1 = int(str1.split('*')[0])
+            str2 = f't0**{str1}'
+            tvars_all.append(str2)
+            if not flag1:
+                tvars.append('t0')
+                locals()[f't0'] = symbols(f't0', real=True)
+                flag1 = True
+        if not params1[i].__contains__('-'):
+            str1 = params1[i].split('exp(')[1]
+            if str1.startswith('t'):
+                str1 = 1
+            else:
+                str1 = int(str1.split('*')[0])
+            str2 = f't0**{str1}'
+            tvars_all.append(str2)
+            if not flag2:
+                tvars.append('t1')
+                locals()[f't1'] = symbols(f't1', real=True)
+                flag2 = True
+    params2 = list(set(re.findall(reg1, f)))
+
+    for i in range(len(params2)):
+        tvars.append(f't{i + len(params)}')
+        locals()[f't{i + len(params)}'] = symbols(f't{i + len(params)}', real=True)
+    for i in range(len(params1)):
+        item = params1[i]
+        f = f.replace(item, tvars_all[i])
+    for i in range(len(params2)):
+        item = params2[i]
+        f = f.replace(item, tvars[i + len(params)])
+    params.extend(params2)
+    Q_poly = simplify(eval(f))
     factorF = factor_list(f)[1]
 
     factors = []
     for item in factorF:
         expstr = str(item[0])
         for i in range(len(tvars)):
-            expstr=expstr.replace(tvars[i], params[i])
-        factors.append(eval(expstr))
-    # factors = [eval('1+14*exp(4*t)+exp(8*t)+8*exp(2*t)*cos(2*t)+24*exp(6*t)*cos(2*t)+16*exp(4*t)*cos(2*t)**2')]
-    # print('Factor:', latex(eval('-(1/64)*exp(-8*t)')), '   ',
-    #       latex(eval('1+14*exp(4*t)+exp(8*t)+8*exp(2*t)*cos(2*t)+24*exp(6*t)*cos(2*t)+16*exp(4*t)*cos(2*t)**2')))
-    # factors=[eval('-(1/64)*exp((-8-4*I)*t)'), eval('(exp(4*I*t)+4*exp((2+2*I)*t)+4*exp((2+6*I)*t)+4*exp(4*t)+22*exp((4+4*I)*t)+4*exp((4+8*I)*t)+12*exp((6+2*I)*t)+12*exp((6+6*I)*t)+exp((8+4*I)*t))')]
+            expstr = expstr.replace(tvars[i], params[i])
+        ff = simplify(eval(expstr))
+        for ff1 in ff.args:
+            restr = list(set(re.findall(r'-*\d*\**exp\(-*\d*\**t\)', str(ff1))))
+            if len(restr) == 1 and restr[0] == str(ff1):
+                continue
+            factors.append(eval(expstr))
+    if len(factors)==1:
+        return [f1]
     return factors
 
 
+
+
 def IntervalMinusPoint(invl1, t_star, samples):
+    accu=0.000001
+    # if len(invl1) < 200:
+    #     accu = 0.000001
+    # elif len(invl1) < 300:
+    #     accu = 0.0001
+    # elif len(invl1) < 500:
+    #     accu = 0.01
+    # elif len(invl1) < 700:
+    #     accu = 0.05
+    # elif len(invl1) < 1000:
+    #     accu = 0.1
+    # elif len(invl1) < 1500:
+    #     accu = 0.5
+    # else:
+    #     print('2000------------')
+    #     accu = 1
     returnInvl = invl1[:]
     for invl in invl1:
         l, u = invl[0], invl[1]
-        if l == u and l == t_star:
-            returnInvl.remove(invl)
-        elif u - l < 0.000001:
-            flag1 = False
-            flag2 = False
+        if Abs(u - l) < accu:
             for i in samples:
-                if Abs(i-l) < 0.000001:
-                    flag1 = True
-                if Abs(i-u) < 0.000001:
-                    flag2 = True
-                if flag2 and flag1:
-                    returnInvl.remove(invl)
-                    break
+                if invl in returnInvl:
+                    if Abs(i-l) < accu and Abs(i-u) < accu:
+                        # print(f'{len(returnInvl)}  invl:{invl}')
+                        returnInvl.remove(invl)
+
     return returnInvl
+
+
+def IntervalMinus1(invl1, invl2,J):
+    delta=invl1[:]
+    for intvl1 in invl1:
+        flag = True
+        inf = intvl1[0] - J[1]
+        sup = intvl1[1] - J[0]
+        for i in range(len(invl2)):
+            sec=Intersection(Interval(invl2[i][0], invl2[i][1], False, False), Interval(inf, sup, False, False))
+            if len(sec.args)>0:
+                flag = False
+                break
+
+        if flag is True:
+            delta.remove(intvl1)
+    return delta
+
 
 
 def IntervalMinus(invl1, invl2):
@@ -71,8 +281,64 @@ def IntervalMinus(invl1, invl2):
     :param invl2: [ll, uu] single interval
     :return:
     '''
+    returnInvl = invl1[:]
+    if invl2 is None or len(invl2) == 0:
+        return returnInvl
+    for invl in invl1:
+        l, u, ll, uu = invl[0], invl[1], invl2[0], invl2[1]  # implicitly uu > ll
+        if ll < l:
+            if uu < l:
+                continue
+            elif uu < u and uu >= l:
+                returnInvl.remove(invl)
+                returnInvl.append([uu, u])
+            elif uu > u:
+                returnInvl.remove(invl)
+            elif uu==u:
+                returnInvl.remove(invl)
+                returnInvl.append([uu, uu])
+        elif ll == l:
+            if uu < l:
+                print(f'Exception: {ll,uu}')
+                continue
+            elif uu < u and uu >= l:
+                returnInvl.remove(invl)
+                returnInvl.append([uu, u])
+                returnInvl.append([ll, ll])
+            elif uu > u:
+                returnInvl.remove(invl)
+                returnInvl.append([ll, ll])
+            elif uu == u:
+                returnInvl.remove(invl)
+                returnInvl.append([uu, uu])
+                returnInvl.append([ll, ll])
+        elif ll > l and ll <= u:
+            if uu > l and uu < u:
+                returnInvl.remove(invl)
+                returnInvl.append([l, ll])
+                returnInvl.append([uu, u])
+            elif uu > u:
+                returnInvl.remove(invl)
+                returnInvl.append([l, ll])
+            elif uu == u:
+                returnInvl.remove(invl)
+                returnInvl.append([l, ll])
+                returnInvl.append([uu, uu])
+        elif ll > u:
+            pass
+    returnInvl.sort()
+    if len(returnInvl) == 0:
+        return []
+    else:
+        return returnInvl
 
-    # print('invl1:',invl1, 'invl2: ',invl2)
+
+def IntervalMinusClose(invl1, invl2):
+    '''
+    :param invl1: [[l1, u1], [l2, u2], ...] disjoint intervals
+    :param invl2: [ll, uu] single interval
+    :return:
+    '''
     returnInvl = invl1[:]
     if invl2 is None or len(invl2) == 0:
         return returnInvl
@@ -80,7 +346,7 @@ def IntervalMinus(invl1, invl2):
         l, u, ll, uu = invl[0], invl[1], invl2[0], invl2[1]  # implicitly uu > ll
         if ll <= l:
             if uu < l:
-                break
+                continue
             elif uu < u and uu >= l:
                 returnInvl.remove(invl)
                 returnInvl.append([uu, u])
@@ -98,7 +364,7 @@ def IntervalMinus(invl1, invl2):
             pass
     returnInvl.sort()
     if len(returnInvl) == 0:
-        return None
+        return []
     else:
         return returnInvl
 
@@ -169,14 +435,13 @@ def SupValue4AbsFuncAppro(func, var, invl):
     '''
     l, u = invl[0], invl[1]
     M = max(Abs(func.subs({var: l})), Abs(func.subs({var: u})))
-    N = 2
+    N = 20
     delta = (u - l) / N
     i = l
-    while i <= u:
+    while i < u:
         funcVal = Abs(func.subs({var: i}))
         M = funcVal if funcVal >= M else M
         i += delta
-    # print('M',M)
     return M
 
 
@@ -185,9 +450,17 @@ def ChooseElement(B, left_open, right_open):
     :param B: [[l1,u1], [l2,u2], ...]list of intervals
     :return:
     '''
-    ind = random.randint(0, len(B) - 1)
-    if B[ind][1] - B[ind][0] <= 0.00000000000001:
-        return B[ind][0]
+    if random.choice([0, 1]):
+        ind=0
+        max=0
+        for i in range(len(B)):
+            if B[i][1]-B[i][0]>max:
+                ind=i
+                max=B[i][1]-B[i][0]
+    else:
+        ind = random.randint(0, len(B) - 1)
+    if Abs(B[ind][1] - B[ind][0])  <= 0.000000000001:
+        return B[ind][0]+(B[ind][1] - B[ind][0])/2
     n = 10
     delta = (B[ind][1] - B[ind][0]) / n
     if left_open:
@@ -199,7 +472,7 @@ def ChooseElement(B, left_open, right_open):
     else:
         tt = B[ind][1]
     cc = []
-    while i - tt <= 0.00000000000001:
+    while i - tt <= 0.000001:
         cc.append(i)
         i += delta
     t = random.choice(cc)
@@ -223,7 +496,7 @@ def Q_poly_sub(Q_poly, P, rho_t):
     return Q_poly1
 
 
-def SignInvariantNeighbor(rho_t, t_star, Phi, B):
+def SignInvariantNeighbor(rho_t, t_star, Phi, B, phi_t, factors):
     # TODO: how to express polynomial of (x_s)_{s \in S}?
     '''
     :param rho_t: density operator (in matrix form)
@@ -233,36 +506,18 @@ def SignInvariantNeighbor(rho_t, t_star, Phi, B):
     :return:
     '''
     P, Q_poly, intvl = Phi['projector'], Phi['poly'], Phi['interval']
-    reg = r"x\d+"
-    params = list(set(re.findall(reg, Q_poly)))
-    substi = {}
-    for item in params:
-        r = r"\d+"
-        ind = eval(re.search(r, item).group()) - 1
-        locals()[item] = symbols(item)
-        substi[locals()[item]] = trace(P[ind] * rho_t)
-    Q_poly = eval(Q_poly).subs(substi)
 
+    Q_poly=Q_poly_sub(Q_poly, P, rho_t)
+    # get the observing expression
+    # print(f'phi_t: {phi_t}')
+    if len(Q_poly.free_symbols)==0:
+        return Interval(B[0][0], B[0][1], False, False)
     # get the variable of polynomial
     variable = list(Q_poly.free_symbols)[0]
-
-    # get the observing expression
-    if len(intvl.args) == 1:
-        phi_t = (Q_poly - intvl.args[0]) * (Q_poly - intvl.args[0])
-    else:
-        if intvl.start == 9999 or intvl.start == -9999:
-            phi_t = (Q_poly - intvl.end)
-        elif intvl.end == 9999 or intvl.end == -9999:
-            phi_t = (Q_poly - intvl.start)
-        else:
-            phi_t = (Q_poly - intvl.start) * (Q_poly - intvl.end)
-    # print('phi_t:', latex(phi_t))
     # get the factors of the observing expression
-    factors = FactorPolynomial(str(phi_t))
     # factors = [phi_t]
     factors_first_deriv = [diff(item, variable) for item in factors]
     factors_second_deriv = [diff(item, variable) for item in factors_first_deriv]
-    # print('t*_root:', phi_t.subs({variable: t_star}))
     # main body for computing the sign-invariant neighbourhood of t*
     if phi_t.evalf(subs={variable: t_star}) == 0:
         # equation-type
@@ -281,32 +536,27 @@ def SignInvariantNeighbor(rho_t, t_star, Phi, B):
             epsilon_j = Rational(Abs(factors[i].subs({variable: t_star})), sup_Psi_j)
             # compute \varepsilon_j
             varepsilon_j = Rational(Abs(factors_first_deriv[i].subs({variable: t_star})), sup_Psi_jj)
-            # print(sup_Psi_j, 'first_order_epsilon:', latex(epsilon_j), float(epsilon_j))
-            # print(sup_Psi_jj, 'second_order_epsilon:', latex(varepsilon_j), float(varepsilon_j))
+            # print(f'{Abs(factors[i].subs({variable: t_star}))} {Abs(factors_first_deriv[i].subs({variable: t_star}))}')
+            # print(f'epsilon_j: {epsilon_j}, varepsilon_j:{varepsilon_j}')
             # compute delta_j 's end-points
             if varepsilon_j <= epsilon_j:
                 inf_delta_j = t_star - epsilon_j
                 sup_delta_j = t_star + epsilon_j
-                # print('1')
             else:
                 if varepsilon_j > epsilon_j and factors[i].subs({variable: t_star}) * factors[i].subs(
                         {variable: t_star - varepsilon_j}) > 0:
                     inf_delta_j = t_star - varepsilon_j
-                    # print('2')
                 else:
-                    s_star = Interval_zero_root_left(phi_t, variable, t_star - varepsilon_j, t_star - epsilon_j)
+                    s_star = Interval_zero_root_left(factors[i], variable, t_star - varepsilon_j, t_star - epsilon_j)
                     inf_delta_j = s_star
-                    # print('left s_star:', s_star)
                     pass  # TODO: l = s_star
 
                 if varepsilon_j > epsilon_j and factors[i].subs({variable: t_star}) * factors[i].subs(
                         {variable: t_star + varepsilon_j}) > 0:
                     sup_delta_j = t_star + varepsilon_j
-                    # print('3')
                 else:
-                    s_star = Interval_zero_root_right(phi_t, variable, t_star + epsilon_j, t_star + varepsilon_j)
+                    s_star = Interval_zero_root_right(factors[i], variable, t_star + epsilon_j, t_star + varepsilon_j)
                     sup_delta_j = s_star
-                    # print('right s_star:', s_star)
                     pass  # TODO: l = s_star
             if inf_delta_j > sup_delta_j:
                 print('the interval inf >sup: [%s,%s]' % (inf_delta_j, sup_delta_j))
@@ -314,19 +564,17 @@ def SignInvariantNeighbor(rho_t, t_star, Phi, B):
             # str_sup_delta_j = str(round(sup_delta_j,4))
             # delta_j = Interval(float(str_inf_delta_j[:len(str_inf_delta_j)-2])+0.01, float(str_sup_delta_j[:len(str_sup_delta_j)-2]), left_open=True, right_open=True)
             delta_j = Interval(inf_delta_j, sup_delta_j, left_open=True, right_open=True)
-
             delta.append(delta_j)
-            # print('delta_j:', delta_j)
         # the intersection betwwen \delta and B
-        for intvl2 in B:
-            intvl3 = Interval(intvl2[0], intvl2[1], left_open=False, right_open=False)
-            delta.append(intvl3)
+        # for intvl2 in B:
+        #     intvl3 = Interval(intvl2[0], intvl2[1], left_open=False, right_open=False)
+        #     delta.append(intvl3)
         res = delta[0]
         for delta_i in delta:
             res = Intersection(delta_i, res)
         if res is EmptySet:
-            print('res: empty: ', delta)
             return [t_star]
+
         return res
 
 
@@ -347,14 +595,11 @@ def Interval_zero_root(phi_t, variable, left, right):
 
 def Interval_zero_root_right(phi_t, variable, left, right):
     delta = (right - left) / 40
-    # print(left, right, 'delta:', delta)
     medium = left + delta
     left_root = phi_t.subs({variable: left})
     root = left
-    # print('left_root:', left_root)
     while medium < right:
         med_root = phi_t.subs({variable: medium})
-        # print('med:', medium, 'med_root:', med_root)
         if left_root * med_root > 0:
             root = medium
         medium += delta
@@ -362,15 +607,12 @@ def Interval_zero_root_right(phi_t, variable, left, right):
 
 
 def Interval_zero_root_left(phi_t, variable, left, right):
-    delta = (right - left) / 100
-    # print(left, right, 'delta:', delta)
+    delta = (right - left) / 40
     medium = right - delta
     right_root = phi_t.subs({variable: right})
     root = right
-    # print('right_root:', right_root)
     while medium > left:
         med_root = phi_t.subs({variable: medium})
-        # print('med:', medium, 'med_root:', med_root)
         if right_root * med_root > 0:
             root = medium
         medium -= delta
@@ -413,11 +655,14 @@ def SatisfiedRR(rho_t, t_star, Phi):
         substi[locals()[item]] = trace(P[ind] * rho_t)
     Q_poly = eval(Q_poly).subs(substi)
     # get the variable of polynomial
-    variable = list(Q_poly.free_symbols)[0]
-    Q_t_star = Q_poly.subs({variable: t_star})
+    if len(Q_poly.free_symbols)>0:
+        variable = list(Q_poly.free_symbols)[0]
+        Q_t_star = Q_poly.subs({variable: t_star})
+    else:
+        Q_t_star=Q_poly
     if len(intvl.args) == 1:
         if Abs(Q_t_star - intvl.args[0]) < 0.000001:
-            print(f'Q_t_star:{Q_t_star}')
+            # print(f'Q_t_star:{Q_t_star}')
             return True
         return False
     elif Q_t_star > intvl.start:
@@ -458,14 +703,30 @@ def FindSamplePoints(l, u, difference):
         raise Exception('the right-end is not matched')
     return pointsList
 
-
-def IntervalMinusSet(invl1, invl2):
-    # print('IntervalMinusSet  invl1:',invl1, 'invl2: ',invl2)
+def IntervalMinusCloseSet(invl1, invl2):
     returnInvl = invl1[:]
     for invl in invl2:
         if returnInvl is None or len(returnInvl)==0:
-            return returnInvl
+            # print(f'I-I\': None ')
+            return None
+        returnInvl = IntervalMinusClose(returnInvl, invl)
+    # print(f'I-I\': {returnInvl}')
+    if returnInvl is None or len(returnInvl) == 0:
+        # print(f'I-I\': None ')
+        return None
+    return returnInvl
+
+def IntervalMinusSet(invl1, invl2):
+    returnInvl = invl1[:]
+    for invl in invl2:
+        if returnInvl is None or len(returnInvl)==0:
+            # print(f'I-I\': None ')
+            return None
         returnInvl = IntervalMinus(returnInvl, invl)
+    # print(f'I-I\': {returnInvl}')
+    if returnInvl is None or len(returnInvl) == 0:
+        # print(f'I-I\': None ')
+        return None
     return returnInvl
 
 
@@ -487,7 +748,7 @@ def chooseTStar(C: list):
     return t
 
 
-def ConflictDrivenSolving(rho_t, rr):
+def ConflictDrivenSolving(rho_t, rr, phi_t, factors):
     '''
     :param rho_t: polynomial of 'dynamics of a QCTMC'
     :param rr: [interval of 'box', interval of 'diamond', Phi]
@@ -505,7 +766,9 @@ def ConflictDrivenSolving(rho_t, rr):
     count = 0
     # main body of the algorithm
     samples = []
-    while (B is not None and len(B) != 0) and IntervalMinusSet(I, I_prime) is not None:
+    II=IntervalMinusSet(I, I_prime)
+
+    while (B is not None and len(B) != 0) and II is not None:
         # print("B:", len(B), B)
         # print("I_prime:", I_prime)
         # print('T:', len(T), T)
@@ -518,9 +781,9 @@ def ConflictDrivenSolving(rho_t, rr):
         # t_star = samples[count]
         count += 1
         t_star = ChooseElement(B, False, False)
-        samples.append(t_star)
-        #print('t_star:', t_star)
-        delta = SignInvariantNeighbor(rho_t, t_star, Phi, [[inf_I + inf_J, sup_I + sup_J]])
+        # print('t_star:',t_star)
+
+        delta = SignInvariantNeighbor(rho_t, t_star, Phi, [[inf_I + inf_J, sup_I + sup_J]], phi_t, factors)
         if isinstance(delta, Interval):
             delta = [delta.start, delta.end]
         elif len(delta) == 1:
@@ -528,53 +791,49 @@ def ConflictDrivenSolving(rho_t, rr):
             delta = [delta[0], delta[0]]
         if SatisfiedRR(rho_t, t_star, Phi):
             if delta[1] - delta[0] > sup_J - inf_J:
-                if delta[0] + (sup_J - inf_J) / 2 >= delta[1]:
-                    # print('b')
-                    l = ChooseElement([[delta[0], delta[0] + (delta[1] - delta[0]) / 2]], True, False)
-                else:
-                    # print('c')
-                    l = ChooseElement([[delta[0], delta[0] + (sup_J - inf_J) / 2]], True, False)
-                if delta[1] - (sup_J - inf_J) / 2 <= delta[0]:
-                    u = ChooseElement([[delta[0], delta[1]]], True, False)
-                    # print('e')
-                else:
-                    # print('f')
+                    l = ChooseElement([[delta[0], delta[0] + (sup_J - inf_J) / 2]], False, True)
                     u = ChooseElement([[delta[1] - (sup_J - inf_J) / 2, delta[1]]], True, False)
-
             else:
                 l = t_star
                 u = t_star
-            #print('l,u:', l, u)
             if l < u:
                 T_prime = FindSamplePoints(l, u, sup_J - inf_J)
-                #print('I_prime:', [l - sup_J, u - inf_J])
                 I_prime = IntervalPlus(I_prime, [l - sup_J, u - inf_J])
                 T.update(T_prime)
             else:
                 T_prime = [t_star]
-                ##print('l == u I_prime:', [t_star - sup_J, t_star - inf_J])
                 I_prime = IntervalPlus(I_prime, [t_star - sup_J, t_star - inf_J])
                 T.update(T_prime)
 
-        #print('B:', B, 'delta:', delta)
         B = IntervalMinusPoint(B, t_star, samples)
         B = IntervalMinus(B, delta)
+        II=IntervalMinusSet(I, I_prime)
+        # print(f'I: {I} J: {J}')
+        if II is not None:
+            B= IntervalMinus1(B, II, J)
+        # print(f"B:{len(B)}, delta:{delta} II:{II}")
+        samples.append(t_star)
     if IntervalMinusSet(I, I_prime) is None:
-        print("True B:", B)
+        print("TRUE SAMPLE-DRIVEN:")
         # print('I:', I, "I_prime:", I_prime)
         # print('T:', len(T), T)
         return 1
     else:
-        print("False B:", B)
+        print("FALSE SAMPLE-DRIVEN:")
         # print('I:', I, "I_prime:", I_prime)
         # print('T:', len(T), T)
         return 0
 
 
 if __name__ == '__main__':
-    # FactorPolynomial('')
     start = time.time()
-    t = symbols('t')
+    t0 = symbols('t0', real=True)
+    t2 = symbols('t2', real=True)
+    t1 = symbols('t1', real=True)
+    t = symbols('t', real=True)
+    f=eval('-2812500.0*t0**8 + 11875000.0*t0**6*t1 + 17500000.0*t0**4*t1**2 - 1250000.0*t0**4 + 23125000.0*t0**2*t1 - 68437500.0')
+    coe_poly(expand(f))
+    # FactorPolynomial('')
     rho_t = Matrix([[0.375 + 0.5 * exp(-2 * t) * cos(2 * t) + 0.125 * exp(-4 * t), 0, 0,
                      0.125 + 0.5 * I * exp(-2 * t) * sin(2 * t) - 0.125 * exp(-4 * t)],
                     [0, 1 / 8 - exp(-4 * t) / 8, 1 / 8 - exp(-4 * t) / 8, 0],
@@ -589,8 +848,21 @@ if __name__ == '__main__':
     ket_1_0 = TensorProduct(ket_1, ket_0)
     # phi='-1/64-exp(-8*t)/64-7*exp(-4*t)/32-1/8*exp(-6*t)*cos(2*t)-3/8*exp(-2*t)*cos(2*t)-1/4*exp(-4*t)*cos(2*t)*cos(2*t)'
     # phi='-1/64-3/16*exp(-(2+2*I)*t)-3/16*exp(-(2-2*I)*t)-1/16*exp(-(4+4*I)*t)-1/16*exp(-(4-4*I)*t)-1/16*exp(-(6+2*I)*t)-1/16*exp(-(6-2*I)*t)-11/32*exp(-4*t)-1/64*exp(-8*t)'
-    # phi='-(3*exp(4*t) + 4*exp(2*t)*cos(2*t) + 1)**2*exp(-8*t)/64 + 1/8 - exp(-4*t)/8'
-    phi = '2.015625 - 4.6875*exp(-2*t)*cos(2*t) + 0.78125*exp(-4*t) + 0.6875*exp(-6*t)*cos(2*t) + 0.203125*exp(-8*t)'
+    phi='-(3*exp(4*t) + 4*exp(2*t)*cos(2*t) + 1)**2*exp(-8*t)/64 + 1/8 - exp(-4*t)/8'
+    # phi = '2.015625 - 4.6875*exp(-2*t)*cos(2*t) + 0.78125*exp(-4*t) + 0.6875*exp(-6*t)*cos(2*t) + 0.203125*exp(-8*t)'
+    t=symbols('t', real=True)
+    f=eval(phi)
+    i=0
+    while i<=3:
+        value=f.subs({t: i})
+        if value>-0.01:
+            print(f'{i:.6f} {value*10-0.3:.6f}')
+            pass
+        else:
+            # print(f'{i:.6f} {value-0.09:.6f}')
+            pass
+        i+=0.001
+
     P = [ket_0_0, ket_0_1, ket_1_0, ket_1_1]
     box_I = [0, 2]
     diamond_J = [0, 5]

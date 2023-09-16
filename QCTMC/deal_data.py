@@ -8,6 +8,9 @@ def read_file(path):
     space_iso = 0
     space_sample = 0
     while line != '' and line != ' ':
+        if line.startswith('AVERAGE') or line.startswith('**') or line.startswith('ISOLATION') or line.startswith('ID') or line.startswith('SAMPLE'):
+            line = f.readline().strip()
+            continue
         line1 = line
         l1 = line1.split(' ')
         line2 = f.readline().strip()
@@ -18,6 +21,10 @@ def read_file(path):
         l4 = line4.split(' ')
         line5 = f.readline().strip()
         l5 = line5.split(' ')
+        f.readline().strip()
+        f.readline().strip()
+        f.readline().strip()
+        f.readline().strip()
         line1a = f.readline().strip()
         l1.extend(line1a.split(' '))
         line2a = f.readline().strip()
@@ -99,6 +106,10 @@ def read_file1(path):
     res = []
     count = 1
     while line != '' and line != ' ':
+        if line.startswith('AVERAGE') or line.startswith('****') or line.startswith('ISOLATE') or line.startswith(
+                'ID') or line.startswith('CONFLICT'):
+            line = f.readline().strip()
+            continue
         line1 = line
         l1 = line1.split(' ')
         line2 = f.readline().strip()
@@ -109,6 +120,10 @@ def read_file1(path):
         l4 = line4.split(' ')
         line5 = f.readline().strip()
         l5 = line5.split(' ')
+        f.readline().strip()
+        f.readline().strip()
+        f.readline().strip()
+        f.readline().strip()
         line1a = f.readline().strip()
         l1.extend(line1a.split(' '))
         line2a = f.readline().strip()

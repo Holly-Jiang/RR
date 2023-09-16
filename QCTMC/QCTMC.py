@@ -5,13 +5,16 @@ import re
 import time
 import psutil
 import os
+
+import sympy
 from sympy.matrices import Matrix, Identity
-from sympy import sqrt, I, Rational, shape, exp, symbols, cos, E, sin, latex, trace, Interval
+from sympy import sqrt, I, Rational, shape, exp, symbols, cos, E, sin, latex, trace, Interval, Transpose, simplify, \
+    expand, zeros
 from sympy.physics.quantum import TensorProduct
 import numpy as np
 import sys
-from ConflictDrivenSolving import Q_poly_sub, ConflictDrivenSolving, IntervalMinusSet
-from random_expr import random_expression
+from ConflictDrivenSolving import Q_poly_sub, ConflictDrivenSolving, IntervalMinusSet, FactorPolynomial, \
+    IntervalMinusCloseSet
 from RealRootIsolate import RealRootIsolate
 
 sys.path.append('../')
@@ -32,7 +35,7 @@ class QCTMC:
         self.ini_state = ini_state
         self.governingMatrix = self.GoverningMatrix()
 
-        self.variable = symbols('t')  # requires that the corresponding input variable is 't'
+        self.variable = symbols('t', real=True)  # requires that the corresponding input variable is 't'
 
     def SimplifyMatrixEle(self, matrix):
         for row in range(0, shape(matrix)[0]):
@@ -61,7 +64,7 @@ class QCTMC:
 
     def ZeroMatrix(self, dim):
         # return_type: Matrix
-        ZeroVector = Matrix([np.zeros(dim)])
+        ZeroVector = zeros(1,dim)
         ZeroMatrix = ZeroVector.T * ZeroVector
         return ZeroMatrix
 
@@ -78,7 +81,8 @@ class QCTMC:
         dim_LM = shape(LinearMat)[0]
         if dim_LM != self.dimension:
             raise Exception('The dimension of linear matrix is not matched, please check!')
-        sum = Matrix([np.zeros(self.dimension * self.dimension)]).T
+        # sum = Matrix([np.zeros(self.dimension * self.dimension)]).T
+        sum=zeros(self.dimension * self.dimension,1)
         for i in range(0, self.dimension):
             ketI = self.KetI(i, self.dimension)
             sum += Matrix(TensorProduct(ketI, ketI))
@@ -99,166 +103,58 @@ class QCTMC:
                 returnMatrix[i, j] = traceM.simplify()
         return returnMatrix
 
-    def Sol2LME(self):
+    def Sol2LME(self,is_compute):
         '''
         :return: density operator (in matrix form)
         '''
         ini_state_vector = self.L2V(self.ini_state)
-        governMat_X_XH = Matrix(
-            [[1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-              1 / 8 * (8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                  -4 * self.variable) + 1), 0, 1 / 8 - exp(-4 * self.variable) / 8, 1 / 8 - exp(-4 * self.variable) / 8,
-              0, 0, 1 / 8 - exp(-4 * self.variable) / 8, 1 / 8 - exp(-4 * self.variable) / 8, 0, 1 / 8 * (
-                      -8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                  -4 * self.variable) + 1), 0, 0,
-              1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3)], [
-                 0, 1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 3) + exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 1) - exp(-2 * I * self.variable)), 0,
-                    -1 / 2 * exp(-2 * self.variable) * self.variable, 0, 0,
-                    1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    1 / 4 * (exp(-2 * self.variable) * (-2 * I * self.variable - 1) + exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (1 - 2 * I * self.variable) - exp(-2 * I * self.variable)), 0], [
-                 0, 1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 1) - exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 3) + exp(-2 * I * self.variable)), 0,
-                    -1 / 2 * exp(-2 * self.variable) * self.variable, 0, 0,
-                    1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    1 / 4 * (exp(-2 * self.variable) * (1 - 2 * I * self.variable) - exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (-2 * I * self.variable - 1) + exp(-2 * I * self.variable)), 0],
-             [
-                 1 / 8 * (8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1), 0, 0,
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 1 / 8 * (-1 + exp(-4 * self.variable)), 0,
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-                 1 / 8 * (-8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1)], [
-                 0, -1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, 1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) + 3),
-                 0, 0, 1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                    -1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 0,
-                    -1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0], [
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0,
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 1 / 8 * (
-                         8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1), 0, 0, 1 / 8 * (
-                         -8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1),
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0, 1 / 8 - exp(-4 * self.variable) / 8], [
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 1 / 8 * (
-                        8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                    -4 * self.variable) - 1),
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3),
-                 1 / 8 * (-8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1), 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0,
-                 1 / 8 - exp(-4 * self.variable) / 8], [
-                 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1), 0,
-                 0, 1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) + 3),
-                    -1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 0,
-                    -1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, -1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0], [
-                 0, -1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, -1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 0,
-                    -1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                    1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) + 3),
-                 0, 0, 1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0], [
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 1 / 8 * (
-                        -8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                    -4 * self.variable) - 1),
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 1 / 8 * (
-                         8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1), 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0,
-                 1 / 8 - exp(-4 * self.variable) / 8], [
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 0, 1 / 8 * (-1 + exp(-4 * self.variable)), 0,
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3),
-                 1 / 8 * (-8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1), 0, 0, 1 / 8 * (
-                         8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) + exp(
-                     -4 * self.variable) - 1),
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0, 1 / 8 - exp(-4 * self.variable) / 8], [
-                 0, 1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    -1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                 0, 0,
-                    -1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1),
-                    1 / 4 * exp(-2 * self.variable) * (2 * I * self.variable + exp((2 + 2 * I) * self.variable) - 1), 0,
-                 0, 1 / 4 * exp(-2 * self.variable) * (-2 * I * self.variable + exp((2 + 2 * I) * self.variable) + 3),
-                 0, -1 / 2 * exp(-2 * self.variable) * self.variable, -1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0], [
-                 1 / 8 * (-8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1), 0, 0,
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 1 / 8 * (-1 + exp(-4 * self.variable)), 0, 0,
-                 1 / 8 * (-1 + exp(-4 * self.variable)), 1 / 8 * (-1 + exp(-4 * self.variable)), 0,
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-                 1 / 8 * (8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1)], [
-                 0, 1 / 4 * (exp(-2 * self.variable) * (-2 * I * self.variable - 1) + exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (1 - 2 * I * self.variable) - exp(-2 * I * self.variable)), 0,
-                    1 / 2 * exp(-2 * self.variable) * self.variable, 0, 0,
-                    -1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, 0, -1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 3) + exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 1) - exp(-2 * I * self.variable)), 0], [
-                 0, 1 / 4 * (exp(-2 * self.variable) * (1 - 2 * I * self.variable) - exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (-2 * I * self.variable - 1) + exp(-2 * I * self.variable)), 0,
-                    1 / 2 * exp(-2 * self.variable) * self.variable, 0, 0,
-                    -1 / 2 * exp(-2 * self.variable) * self.variable, 1 / 2 * exp(-2 * self.variable) * self.variable,
-                 0, 0, -1 / 2 * exp(-2 * self.variable) * self.variable, 0,
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 1) - exp(-2 * I * self.variable)),
-                    1 / 4 * (exp(-2 * self.variable) * (2 * I * self.variable + 3) + exp(-2 * I * self.variable)), 0], [
-                 1 / 8 * (-4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3), 0, 0,
-                 1 / 8 * (-8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1), 0, 1 / 8 - exp(-4 * self.variable) / 8,
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 0, 1 / 8 - exp(-4 * self.variable) / 8,
-                 1 / 8 - exp(-4 * self.variable) / 8, 0, 1 / 8 * (
-                         8 * exp(-2 * self.variable) * I * cos(self.variable) * sin(self.variable) - exp(
-                     -4 * self.variable) + 1), 0, 0,
-                 1 / 8 * (4 * exp(-2 * self.variable) * cos(2 * self.variable) + exp(-4 * self.variable) + 3)]]
-        )
-        # governMat_0_IH=Matrix([[1/16*exp(-4*self.variable)*pow((1+3*exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((3+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((1+3*exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((3+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((3+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((1+3*exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((3+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2)],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-3+2*exp(2*self.variable)+exp(4 *self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(3+10*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable))],[1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),1/16*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((-1+exp(2*self.variable)),2),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),-(1/16)*exp(-4*self.variable)*(-1-2*exp(2*self.variable)+3*exp(4*self.variable)),1/16*exp(-4*self.variable)*pow((1+3*exp(2*self.variable)),2)]])
-        # governMat_X_XH = expMt(self.governingMatrix, self.variable)
-        # print(latex(governMat_X_XH))
-        # print(latex(governMat_X_XH * ini_state_vector))
+        if is_compute==1:
+            governMat_X_XH = expand(simplify(exp(self.governingMatrix*self.variable)))
+            f = open('./EXPM.txt', 'w')
+            f.write(governMat_X_XH.__str__())
+            f.close()
+        elif is_compute==3:
+            matrix ='Matrix([[(3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (exp(8*t) - exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 1/8 - exp(-4*t)/8, 1/8 - exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8, 1/8 - exp(-4*t)/8, 0, (exp(8*t) - exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8], [0, I*t*exp(-2*t)/2 + exp(-2*I*t)/4 + 3*exp(-2*t)/4, I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, 0, -t*exp(-2*t)/2, 0, 0, t*exp(-2*t)/2, -t*exp(-2*t)/2, 0, 0, t*exp(-2*t)/2, 0, -I*t*exp(-2*t)/2 + exp(-2*I*t)/4 - exp(-2*t)/4, -I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, 0], [0, I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, I*t*exp(-2*t)/2 + exp(-2*I*t)/4 + 3*exp(-2*t)/4, 0, -t*exp(-2*t)/2, 0, 0, t*exp(-2*t)/2, -t*exp(-2*t)/2, 0, 0, t*exp(-2*t)/2, 0, -I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, -I*t*exp(-2*t)/2 + exp(-2*I*t)/4 - exp(-2*t)/4, 0], [(exp(8*t) - exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, -1/8 + exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, -1/8 + exp(-4*t)/8, 0, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (exp(8*t) - exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8], [0, -t*exp(-2*t)/2, -t*exp(-2*t)/2, 0, (-2*I*t + exp(2*t*(1 + I)) + 3)*exp(-2*t)/4, 0, 0, (2*I*t + exp(2*t*(1 + I)) - 1)*exp(-2*t)/4, (-2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, 0, (2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, t*exp(-2*t)/2, t*exp(-2*t)/2, 0], [1/8 - exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, 0, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (-exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (-exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8], [1/8 - exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, 0, (-exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (-exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8], [0, t*exp(-2*t)/2, t*exp(-2*t)/2, 0, (2*I*t + exp(2*t*(1 + I)) - 1)*exp(-2*t)/4, 0, 0, (-2*I*t + exp(2*t*(1 + I)) + 3)*exp(-2*t)/4, (2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, 0, (-2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, -t*exp(-2*t)/2, -t*exp(-2*t)/2, 0], [0, -t*exp(-2*t)/2, -t*exp(-2*t)/2, 0, (-2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, 0, (2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, (-2*I*t + exp(2*t*(1 + I)) + 3)*exp(-2*t)/4, 0, 0, (2*I*t + exp(2*t*(1 + I)) - 1)*exp(-2*t)/4, 0, t*exp(-2*t)/2, t*exp(-2*t)/2, 0], [1/8 - exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, 0, (-exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (-exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8], [1/8 - exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, 0, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (-exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (-exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8], [0, t*exp(-2*t)/2, t*exp(-2*t)/2, 0, (2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, 0, 0, (-2*I*t - exp(2*t*(1 + I)) + 1)*exp(-2*t)/4, (2*I*t + exp(2*t*(1 + I)) - 1)*exp(-2*t)/4, 0, 0, (-2*I*t + exp(2*t*(1 + I)) + 3)*exp(-2*t)/4, 0, -t*exp(-2*t)/2, -t*exp(-2*t)/2, 0], [(exp(8*t) - exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, -1/8 + exp(-4*t)/8, -1/8 + exp(-4*t)/8, 0, 0, -1/8 + exp(-4*t)/8, -1/8 + exp(-4*t)/8, 0, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (exp(8*t) - exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8], [0, -I*t*exp(-2*t)/2 + exp(-2*I*t)/4 - exp(-2*t)/4, -I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, 0, t*exp(-2*t)/2, 0, 0, -t*exp(-2*t)/2, t*exp(-2*t)/2, 0, 0, -t*exp(-2*t)/2, 0, I*t*exp(-2*t)/2 + exp(-2*I*t)/4 + 3*exp(-2*t)/4, I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, 0], [0, -I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, -I*t*exp(-2*t)/2 + exp(-2*I*t)/4 - exp(-2*t)/4, 0, t*exp(-2*t)/2, 0, 0, -t*exp(-2*t)/2, t*exp(-2*t)/2, 0, 0, -t*exp(-2*t)/2, 0, I*t*exp(-2*t)/2 - exp(-2*I*t)/4 + exp(-2*t)/4, I*t*exp(-2*t)/2 + exp(-2*I*t)/4 + 3*exp(-2*t)/4, 0], [(3*exp(8*t) + exp(4*t) - 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (exp(8*t) - exp(4*t) + 2*exp(2*t*(3 - I)) - 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 1/8 - exp(-4*t)/8, 1/8 - exp(-4*t)/8, 0, 0, 1/8 - exp(-4*t)/8, 1/8 - exp(-4*t)/8, 0, (exp(8*t) - exp(4*t) - 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8, 0, 0, (3*exp(8*t) + exp(4*t) + 2*exp(2*t*(3 - I)) + 2*exp(2*t*(3 + I)))*exp(-8*t)/8]])'
+            matrix = matrix.replace('*t', "*self.variable")
+            matrix = matrix.replace(' t', " self.variable")
+            matrix = matrix.replace('-t', "-self.variable")
+            matrix = matrix.replace('(t', "(self.variable")
+            governMat_X_XH = expand(eval(matrix), complex=True)
+        else:
+            f = open('./EXPM.txt', 'r')
+            matrix=f.readline()
+            matrix=matrix.replace('*t',"*self.variable")
+            matrix=matrix.replace(' t', " self.variable")
+            matrix=matrix.replace('-t', "-self.variable")
+            matrix=matrix.replace('(t', "(self.variable")
+            governMat_X_XH = expand(eval(matrix), complex=True)
+            f.close()
+        # print('governMat_X_XH:', governMat_X_XH)
         solution = self.V2L(governMat_X_XH * ini_state_vector)
         # print(latex(solution))
         return solution
 
 
-def iso_satisfy(I, J, B, RRI,factor):
+def iso_satisfy(I, J, B, RRI, factor):
     sat_interval = []
-    value_t = RRI.f.subs({RRI.t: RRI.invl[0]})
+    value_t = simplify(RRI.f.subs({RRI.t: RRI.invl[0]}))
     if len(RRI.solution) == 0:
         if (factor[1] == '>' and value_t > 0) or (factor[1] == '>=' and value_t >= 0) or (
                 factor[1] == '<' and value_t < 0) or (factor[1] == '<=' and value_t <= 0):
             sat_interval.append([B[0] - J[1], B[1] - J[0]])
     else:
-        minu_invl = IntervalMinusSet([B], RRI.solution)
+        minu_invl = IntervalMinusCloseSet([B], RRI.solution)
         for invl in minu_invl:
             value_t = RRI.f.subs({RRI.t: invl[0] + (invl[1] - invl[0]) / 2})
             if (factor[1] == '>' and value_t > 0) or (factor[1] == '>=' and value_t >= 0) or (
                     factor[1] == '<' and value_t < 0) or (factor[1] == '<=' and value_t <= 0):
                 sat_interval.append([invl[0] - J[1], invl[1] - J[0]])
-    if IntervalMinusSet([I], sat_interval) is None:
+    if IntervalMinusCloseSet([I], sat_interval) is None:
         return True
     return False
 
 
-def qctmc_rho_t():
+def qctmc_rho_t(is_compute):
     start = time.time()
     dim = 4
     num_states = 6
@@ -297,7 +193,7 @@ def qctmc_rho_t():
     qctmc = QCTMC(dim, num_states, labels, Hermitian_Operator, Linear_Operators, ini_state=ini_state)
     # print('governingMatrix: ', qctmc.governingMatrix)
     # print('latex(governingMatrix): ', latex(qctmc.governingMatrix))
-    rho_t = qctmc.Sol2LME()
+    rho_t = qctmc.Sol2LME(is_compute)
     # print("rho:", rho_t)
     # print("rho——latex:", latex(rho_t))
     # print(latex(trace(ket_add_0 * rho_t)))
@@ -311,39 +207,37 @@ def qctmc_rho_t():
     # print((trace(ket_1_1 * rho_t)))
     P = [ket_0_0, ket_0_1, ket_1_0, ket_1_1]
     qctmc_time = time.time() - start
-    print(f'qctmc_time: {time.time() - start}')
+    print(f'QCTMC_TIME: {time.time() - start}')
     return rho_t, P, qctmc_time
 
 
 def isolate_solution(I, J, factor, rho_t, P, interval, qctmc_time):
-    iso_cache = 0
-    iso_time = 0
-    print(f'factor: {factor}')
+    print(f'FACTOR: {factor}')
     start = time.time()
     f3_prime = str(Q_poly_sub(factor[0], P, rho_t).simplify())
     if not (len(re.findall(r'exp\(.\d*.t\)', f3_prime)) > 0 or len(re.findall(r'cos\(.\d*.t\)', f3_prime)) > 0):
         return 0, 0, False, []
-    print(f'phi: {f3_prime}')
-    print(f'interval:{interval}')
-    print('**************realrootisolate**********************')
-    RRI = RealRootIsolate('t', f3_prime, interval, 2)
+    print(f'PHI: {f3_prime}')
+    print(f'INTERVAL: {interval}')
+    print('**************ISOLATE**********************')
+    RRI = RealRootIsolate('t', f3_prime, interval, 10)
     RRI.RealRootIsolation(RRI, RRI.invl)
     iso_cache = (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024)
-    if iso_cache<RRI.cache:
-        iso_cache=RRI.cache
+    if iso_cache < RRI.cache:
+        iso_cache = RRI.cache
     value = 0
     if len(RRI.solution) > 0:
-        print(f'ok isolate: {RRI.solution}')
+        print(f'OK ISOLATE: {RRI.solution}')
     else:
-        print(f'no root isolate: {RRI.solution}')
+        print(f'NO ROOT ISOLATE: {RRI.solution}')
     if iso_satisfy(I, J, interval, RRI, factor):
-        value=1
-        print(f'iso satisfy')
+        value = 1
+        print(f'ISOLATE SATISFIED')
     else:
-        print(f'iso not satisfy')
-    print(f'iso 当前进程的内存使用：%.4f MB' % (iso_cache))
+        print(f'ISOLATE NOT SATISFIED')
+    print(f'ISOLATE CACHE USED: %.4f MB' % (iso_cache))
     iso_time = time.time() - start + qctmc_time
-    print(f'realrootisolate time:{iso_time}')
+    print(f'ISOLATE TIME: {iso_time}')
     print('************************************', iso_time, iso_cache, value, RRI.solution)
     return iso_time, iso_cache, value, RRI.solution
 
@@ -352,104 +246,116 @@ def conflict_solution(factor, rho_t, P, box_I, diamond_J, qctmc_time):
     start = time.time()
     # factor=['x2-x1**2', '==', '0']
     phi = factor[0]
-    print(f'factor: {factor}')
+    print(f'FACTOR: {factor}')
 
-    interval = Interval(int(factor[2]), 9999, left_open=True, right_open=True)
+    interval = Interval(int(factor[2]), 99999999999999, left_open=True, right_open=True)
     if factor[1].__eq__('>'):
-        interval = Interval(int(factor[2]), 9999, left_open=True, right_open=True)
+        interval = Interval(int(factor[2]), 99999999999999, left_open=True, right_open=True)
     elif factor[1].__eq__('>='):
-        interval = Interval(int(factor[2]), 9999, left_open=False, right_open=True)
+        interval = Interval(int(factor[2]), 99999999999999, left_open=False, right_open=True)
     elif factor[1].__eq__('<'):
-        interval = Interval(-9999, int(factor[2]), left_open=True, right_open=True)
+        interval = Interval(-99999999999999, int(factor[2]), left_open=True, right_open=True)
     elif factor[1].__eq__('<='):
-        interval = Interval(-9999, int(factor[2]), left_open=True, right_open=False)
+        interval = Interval(-99999999999999, int(factor[2]), left_open=True, right_open=False)
     elif factor[1].__eq__('=='):
         interval = Interval(int(factor[2]), int(factor[2]), left_open=False, right_open=False)
     Phi = {'projector': P, 'poly': phi, 'interval': interval}
     # print(f'Phi:{Phi}')
     rr = [box_I, diamond_J, Phi]
-
-    print('***************ConflictDrivenSolving*********************')
+    Q_poly = Q_poly_sub(factor[0], P, rho_t).simplify()
+    print(f'PHI: {str(Q_poly)}')
+    print('***************SAMPLE-DRIVEN*********************')
     # print(f'I:{box_I}, J:{diamond_J}')
-    T = ConflictDrivenSolving(rho_t, rr)
+    if len(interval.args) == 1:
+        phi_t = (Q_poly - interval.args[0]) * (Q_poly - interval.args[0])
+    else:
+        if interval.start == 99999999999999 or interval.start == -99999999999999:
+            phi_t = (Q_poly - interval.end)
+        elif interval.end == 99999999999999 or interval.end == -99999999999999:
+            phi_t = (Q_poly - interval.start)
+        else:
+            phi_t = (Q_poly - interval.start) * (Q_poly - interval.end)
+    phi_t=expand(phi_t)
+    factors = FactorPolynomial(str(phi_t))
+    T = ConflictDrivenSolving(rho_t, rr,phi_t,factors)
 
     print('************************************')
     cache = (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024)
     conflict_cache = cache
-    print(u'conflict 当前进程的内存使用：%.4f MB' % (cache))
+    print(u'SAMPLE-DRIVEN CACHE USED: %.4f MB' % (cache))
     conflict_time = time.time() - start + qctmc_time
-    print(f'conflictdriving time:{time.time() - start + qctmc_time}')
-    return conflict_time, conflict_cache, T
+    print(f'SAMPLE-DRIVEN TIME: {time.time() - start + qctmc_time}')
+    return round(conflict_time,2), round(conflict_cache,2), T
 
 
 if __name__ == '__main__':
+
     start = time.time()
-    iso_time = 0
-    conflict_time = 0
-    instance = 5
-    conflict_cache = 0
-    iso_cache = 0
-    rho_t, P, qctmc_time = qctmc_rho_t()
-    count = 0
-    root_count = random.randint(2, 3)
-    # root_count = 2
-    print(f'root_count: {root_count}')
-    degree = int(sys.argv[1])
-    height_from = int(sys.argv[2])
-    height_to = int(sys.argv[3])
-    Ileft = 1
-    Iinter1 = 10
-    Jinter1 = 5
-    Jleft = 0.5
-    while count < root_count:
-        exp, cnf_exp, cnf_exp_list = random_expression(1, 1, 1, degree, height_from, height_to, 10)
-        factor = exp[0].split(' ')
-        Iinter = random.randint(1, Iinter1)
-        Jinter = random.randint(1, Jinter1)
-        # boxleft=random.randint(0, Ileft)
-        # dialeft=random.randint(0, Jleft)
-        boxleft = round(random.uniform(0, Ileft), 1)
-        dialeft = round(random.uniform(0, Jleft), 1)
-        I = [boxleft, boxleft + Iinter]
-        J = [dialeft, dialeft + Jinter]
-        inf_I = I[0]
-        sup_I = I[1]
-        inf_J = J[0]
-        sup_J = J[1]
-        B = [inf_I + inf_J, sup_I + sup_J]
-        print(f'I: {I}, J: {J}')
 
-        iso_time1, iso_cache1, value, solution = isolate_solution(factor, rho_t, P, B, qctmc_time)
-        if not solution:
-            count += 1
-            iso_time += iso_time1
-            iso_cache += iso_cache1
-        else:
-            continue
-        conflict_time, conflict_cache, T = conflict_solution(factor, rho_t, P, I, J, qctmc_time, conflict_time,
-                                                             conflict_cache)
-        print('time:', time.time() - start)
-    for i in range(5 - root_count):
-        exp, cnf_exp, cnf_exp_list = random_expression(1, 1, 1, degree, height_from, height_to, 10)
-        factor = exp[0].split(' ')
-        Iinter = random.randint(1, Iinter1)
-        Jinter = random.randint(1, Jinter1)
-        boxleft = round(random.uniform(0, Ileft), 1)
-        dialeft = round(random.uniform(0, Jleft), 1)
-        I = [boxleft, boxleft + Iinter]
-        J = [dialeft, dialeft + Jinter]
-        inf_I = I[0]
-        sup_I = I[1]
-        inf_J = J[0]
-        sup_J = J[1]
-        print(f'I: {I}, J: {J}')
-        B = [inf_I + inf_J, sup_I + sup_J]
-        iso_time1, iso_cache1, value, solution = isolate_solution(factor, rho_t, P, B, qctmc_time)
-        iso_time += iso_time1
-        iso_cache += iso_cache1
-        conflict_time, conflict_cache, T = conflict_solution(factor, rho_t, P, I, J, qctmc_time, conflict_time,
-                                                             conflict_cache)
-        print('time:', time.time() - start)
+    rho_t, P, qctmc_time = qctmc_rho_t(0)
+    # phi='-1/64-exp(-8*t)/64-7*exp(-4*t)/32-1/8*exp(-6*t)*cos(2*t)-3/8*exp(-2*t)*cos(2*t)-1/4*exp(-4*t)*cos(2*t)*cos(2*t)'
+    # phi='-1/64-3/16*exp(-(2+2*I)*t)-3/16*exp(-(2-2*I)*t)-1/16*exp(-(4+4*I)*t)-1/16*exp(-(4-4*I)*t)-1/16*exp(-(6+2*I)*t)-1/16*exp(-(6-2*I)*t)-11/32*exp(-4*t)-1/64*exp(-8*t)'
+    # phi='-(3*exp(4*t) + 4*exp(2*t)*cos(2*t) + 1)**2*exp(-8*t)/64 + 1/8 - exp(-4*t)/8'
+    # phi = '2.015625 - 4.6875*exp(-2*t)*cos(2*t) + 0.78125*exp(-4*t) + 0.6875*exp(-6*t)*cos(2*t) + 0.203125*exp(-8*t)'
+    t=symbols('t', real=True)
+    # f=eval(phi)
+    # i=0
+    # while i<=3:
+    #     value=f.subs({t: i})
+    #     if value>-0.01:
+    #         print(f'{i:.6f} {value*10-0.3:.6f}')
+    #         pass
+    #     else:
+    #         # print(f'{i:.6f} {value-0.09:.6f}')
+    #         pass
+    #     i+=0.001
+    #
+    # P = [ket_0_0, ket_0_1, ket_1_0, ket_1_1]
+    box_I = [0.0, 6.0]
+    diamond_J =  [0.2, 1.2]
+    cnf_list=[['683*x2*x4-575*x3*x4+183*x3**2-327*x1*x4-789*x1**2-68*x4**2+233*x1*x3+961*x1**2-638*x2*x3+141*x2**2+432*x1*x2 >= 0']]
+    B = [box_I[0] + diamond_J[0], box_I[1] + diamond_J[1]]
+    for cnf in cnf_list:
+        for phi in cnf:
+            factor=phi.split(' ')
+            interval = Interval(int(factor[2]), 99999999999999, left_open=True, right_open=True)
+            if factor[1].__eq__('>'):
+                interval = Interval(int(factor[2]), 99999999999999, left_open=True, right_open=True)
+            elif factor[1].__eq__('>='):
+                interval = Interval(int(factor[2]), 99999999999999, left_open=False, right_open=True)
+            elif factor[1].__eq__('<'):
+                interval = Interval(-99999999999999, int(factor[2]), left_open=True, right_open=True)
+            elif factor[1].__eq__('<='):
+                interval = Interval(-99999999999999, int(factor[2]), left_open=True, right_open=False)
+            elif factor[1].__eq__('=='):
+                interval = Interval(int(factor[2]), int(factor[2]), left_open=False, right_open=False)
+            Phi = {'projector': P, 'poly': factor[0], 'interval': interval}
+            rr = [box_I, diamond_J, Phi]
+            Q_poly = Q_poly_sub(factor[0], P, rho_t).simplify()
+            print(f'PHI: {str(Q_poly)}')
+            print('***************SAMPLE-DRIVEN*********************')
+            # print(f'I:{box_I}, J:{diamond_J}')
+            if len(interval.args) == 1:
+                phi_t = (Q_poly - interval.args[0]) * (Q_poly - interval.args[0])
+            else:
+                if interval.start == 99999999999999 or interval.start == -99999999999999:
+                    phi_t = (Q_poly - interval.end)
+                elif interval.end == 99999999999999 or interval.end == -99999999999999:
+                    phi_t = (Q_poly - interval.start)
+                else:
+                    phi_t = (Q_poly - interval.start) * (Q_poly - interval.end)
+            phi_t = expand(phi_t)
+            factors = FactorPolynomial(str(phi_t))
 
-    print(f'average time｜ isolate: {iso_time / instance}, conflict: {conflict_time / instance}')
-    print(f'average space｜ isolate: {iso_cache / instance}, conflict: {conflict_cache / instance}')
+            # iso=isolate_solution(box_I, diamond_J, factor, rho_t, P, B, qctmc_time)
+            sample=ConflictDrivenSolving(rho_t, rr,phi_t,factors)
+            iso=isolate_solution(box_I, diamond_J, factor, rho_t, P, B, qctmc_time)
+            if sample!=iso[2]:
+                print(f'sample: {sample}  iso:{iso}')
+                exit(-1)
+    # # B[ind]: [1.56093620410116, 1.56093620410116] delta: 1.05471187339390e-16
+    # print(time.time() - start)
+    # prepare for the QCTMC data
+    # qctmc_rho_t(int(sys.argv[1]))
+    pass
+# 9*x2**2+10*x3**3+3*x4+1*x2*x3-3*x1**3-5*x3**3-9*x1*x4+10*x1*x2*x4-9*x2*x3*x4-6*x1*x3+6*x2*x4 > 0

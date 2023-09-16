@@ -1,0 +1,143 @@
+QCTMC_TIME: 1.69175124168396
+ID: 1001
+I: [0.0, 4.0], J: [0.1, 2.1]
+CNF_EXP_LIST: [['848*x2+657*x3 < 0']]
+FACTOR: ['848*x2+657*x3', '<', '0']
+PHI: 1505/8 - 1505*exp(-4*t)/8
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 107.6523 MB
+SAMPLE-DRIVEN TIME: 1.8775181770324707
+SAMPLE-DRIVEN: 1001 1.88 108 0
+
+ID: 1002
+I: [0.3, 5.3], J: [0.2, 2.2]
+CNF_EXP_LIST: [['595*x3+760*x1-836 > 0']]
+FACTOR: ['595*x3+760*x1-836', '>', '0']
+PHI: -476.625 + 380.0*exp(-2*t)*cos(2*t) + 20.625*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.1016 MB
+SAMPLE-DRIVEN TIME: 1.8057262897491455
+SAMPLE-DRIVEN: 1002 1.81 108 0
+
+ID: 1003
+I: [0.6, 6.6], J: [0.1, 5.1]
+CNF_EXP_LIST: [['910*x3 >= 0']]
+FACTOR: ['910*x3', '>=', '0']
+PHI: 455/4 - 455*exp(-4*t)/4
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.3633 MB
+SAMPLE-DRIVEN TIME: 1.756061315536499
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 1003 1.76 108 1
+
+ID: 1004
+I: [0.9, 10.9], J: [0.1, 5.1]
+CNF_EXP_LIST: [['289*x2+251*x3-697*x4+256 <= 0']]
+FACTOR: ['289*x2+251*x3-697*x4+256', '<=', '0']
+PHI: 62.125 + 348.5*exp(-2*t)*cos(2*t) - 154.625*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+FALSE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.7578 MB
+SAMPLE-DRIVEN TIME: 1.8592431545257568
+SAMPLE-DRIVEN: 1004 1.86 109 0
+
+ID: 1005
+I: [0.9, 4.9], J: [0.4, 4.4]
+CNF_EXP_LIST: [['615*x1-801*x3-364*x2 >= 0']]
+FACTOR: ['615*x1-801*x3-364*x2', '>=', '0']
+PHI: 85.0 + 307.5*exp(-2*t)*cos(2*t) + 222.5*exp(-4*t)
+***************SAMPLE-DRIVEN*********************
+TRUE SAMPLE-DRIVEN:
+************************************
+SAMPLE-DRIVEN CACHE USED: 108.9414 MB
+SAMPLE-DRIVEN TIME: 1.7473292350769043
+The boolean  formula is satisfied#
+SAMPLE-DRIVEN: 1005 1.75 109 1
+
+AVERAGE TIME: 1.81, AVERAGE SPACE: 108
+QCTMC_TIME: 1.7641746997833252
+ID: 1001
+I: [0.0, 4.0], J: [0.1, 2.1]
+CNF_EXP_LIST: [['848*x2+657*x3 < 0']]
+FACTOR: ['848*x2+657*x3', '<', '0']
+PHI: 1505/8 - 1505*exp(-4*t)/8
+INTERVAL: [0.1, 6.1]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  0.549360990524292 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 109.8516 MB
+ISOLATE TIME: 2.4660491943359375
+************************************ 2.4660491943359375 109.8515625 0 []
+ISOLATION-BASED: 1001 2.47 110 0
+
+ID: 1002
+I: [0.3, 5.3], J: [0.2, 2.2]
+CNF_EXP_LIST: [['595*x3+760*x1-836 > 0']]
+FACTOR: ['595*x3+760*x1-836', '>', '0']
+PHI: -476.625 + 380.0*exp(-2*t)*cos(2*t) + 20.625*exp(-4*t)
+INTERVAL: [0.5, 7.5]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  6.231269121170044 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 116.7695 MB
+ISOLATE TIME: 8.495990753173828
+************************************ 8.495990753173828 116.76953125 0 []
+ISOLATION-BASED: 1002 8.50 117 0
+
+ID: 1003
+I: [0.6, 6.6], J: [0.1, 5.1]
+CNF_EXP_LIST: [['910*x3 >= 0']]
+FACTOR: ['910*x3', '>=', '0']
+PHI: 455/4 - 455*exp(-4*t)/4
+INTERVAL: [0.7, 11.7]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  0.19798707962036133 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 116.9531 MB
+ISOLATE TIME: 2.092668056488037
+************************************ 2.092668056488037 116.953125 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 1003 2.09 117 1
+
+ID: 1004
+I: [0.9, 10.9], J: [0.1, 5.1]
+CNF_EXP_LIST: [['289*x2+251*x3-697*x4+256 <= 0']]
+FACTOR: ['289*x2+251*x3-697*x4+256', '<=', '0']
+PHI: 62.125 + 348.5*exp(-2*t)*cos(2*t) - 154.625*exp(-4*t)
+INTERVAL: [1.0, 16.0]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  8.763592958450317 s
+NO ROOT ISOLATE: []
+ISOLATE NOT SATISFIED
+ISOLATE CACHE USED: 120.2031 MB
+ISOLATE TIME: 11.006422996520996
+************************************ 11.006422996520996 120.203125 0 []
+ISOLATION-BASED: 1004 11.01 120 0
+
+ID: 1005
+I: [0.9, 4.9], J: [0.4, 4.4]
+CNF_EXP_LIST: [['615*x1-801*x3-364*x2 >= 0']]
+FACTOR: ['615*x1-801*x3-364*x2', '>=', '0']
+PHI: 85.0 + 307.5*exp(-2*t)*cos(2*t) + 222.5*exp(-4*t)
+INTERVAL: [1.3, 9.3]
+**************ISOLATE**********************
+the total time consumed for real root isolation:  3.7798500061035156 s
+NO ROOT ISOLATE: []
+ISOLATE SATISFIED
+ISOLATE CACHE USED: 121.0000 MB
+ISOLATE TIME: 6.018243789672852
+************************************ 6.018243789672852 121.0 1 []
+ISOLATION-BASED: The boolean formula is satisfied#
+ISOLATION-BASED: 1005 6.02 121 1
+
+AVERAGE TIME: 6.02, AVERAGE SPACE: 117
